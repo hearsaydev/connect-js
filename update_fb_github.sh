@@ -2,6 +2,10 @@
 cd `dirname $0`
 TODAY=`date --rfc-3339=date`
 JS_OUTPUT="js/all_${TODAY}.js"
+if [ ! -d "js"]
+then
+  mkdir "js"
+fi
 /usr/bin/wget https://connect.facebook.net/en_US/all.js -O ${JS_OUTPUT}
 /usr/bin/python jsbeautifier.py -o all_deminified.js ${JS_OUTPUT}
 # Avoid sending out unnecessary updates if only the timestamp has changed.
