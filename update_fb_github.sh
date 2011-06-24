@@ -16,7 +16,7 @@ then
   echo "Commit has changed..."                        
   git --no-pager diff . # Just to see what changed...turn off the pager.
   /usr/bin/git add all_deminified.js
-  /usr/bin/git commit -m $TODAY
+  /usr/bin/git commit -m "Facebook Connect changes for $TODAY"
   /usr/bin/git push -f origin
 fi                                                    
                                                       
