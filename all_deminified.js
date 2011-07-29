@@ -1,4 +1,4 @@
-/*1311720501,169921663,JIT Construction: v411252,en_US*/
+/*1311896481,169555073,JIT Construction: v412753,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -1465,7 +1465,7 @@ FB.provide('UIServer', {
     },
     setActiveNode: function(a, b) {
         FB.UIServer._active[a.id] = b;
-        b.fbCallID = a.id;
+        if (a.params && a.params.display == 'iframe') b.fbCallID = a.id;
     },
     hidden: function(a) {
         a.className = 'FB_UI_Hidden';
