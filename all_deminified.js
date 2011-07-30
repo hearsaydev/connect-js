@@ -1,4 +1,4 @@
-/*1311896481,169555073,JIT Construction: v412753,en_US*/
+/*1311980725,169916604,JIT Construction: v413368,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -1334,7 +1334,7 @@ FB.provide('', {
                 i = h.split(',');
             }
             for (var e = 0; e < i.length; e++) {
-                var g = i[e].trim();
+                var g = FB.String.trim(i[e]);
                 if (g && !FB.initSitevars.iframePermissions[g]) {
                     f.display = 'popup';
                     break;
