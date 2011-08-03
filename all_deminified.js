@@ -1,4 +1,4 @@
-/*1311980725,169916604,JIT Construction: v413368,en_US*/
+/*1312336036,169555059,JIT Construction: v415417,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -236,6 +236,8 @@ FB.provide('Flash', {
     ],
     _swfPath: 'swf/XdComm.swf',
     _callbacks: [],
+    _names: {},
+    _unloadRegistered: false,
     init: function() {
         if (FB.Flash._init) return;
         FB.Flash._init = true;
@@ -250,6 +252,19 @@ FB.provide('Flash', {
         var a = !! document.attachEvent,
             c = ('<object ' + 'type="application/x-shockwave-flash" ' + 'id="' + d + '" ' + (b ? 'flashvars="' + b + '" ' : '') + (a ? 'name="' + d + '" ' : '') + (a ? '' : 'data="' + e + '" ') + (a ? 'classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" ' : '') + 'allowscriptaccess="always">' + '<param name="movie" value="' + e + '"></param>' + '<param name="allowscriptaccess" value="always"></param>' + '</object>');
         FB.Content.appendHidden(c);
+        if (FB.UA.ie() >= 9) {
+            if (!FB.Flash._unloadRegistered) {
+                var f = function() {
+                        FB.Array.forEach(FB.Flash._names, function(i, h) {
+                            var g = document.getElementById(h);
+                            if (g) g.removeNode(true);
+                        });
+                    };
+                window.attachEvent('onunload', f);
+                FB.Flash._unloadRegistered = true;
+            }
+            FB.Flash._names[d] = true;
+        }
     },
     hasMinVersion: function() {
         if (typeof FB.Flash._hasMinVersion === 'undefined') {
@@ -869,7 +884,8 @@ FB.provide('Canvas', {
     },
     setSize: function(b) {
         if (typeof b != "object") b = {};
-        b = FB.copy(b || {}, FB.Canvas._computeContentSize());
+        b = b || {};
+        if (b.width == null || b.height == null) b = FB.copy(b, FB.Canvas._computeContentSize());
         b = FB.copy(b, {
             frame: window.name || 'iframe_canvas'
         });
@@ -1733,7 +1749,7 @@ FB.provide('Auth', {
                 setTimeout(c, 500);
                 g.postMessage(FB.JSON.stringify({
                     method: 'getItem',
-                    params: ['LoginInfo_' + FB._apiKey],
+                    params: ['LoginInfo_' + FB._apiKey, true],
                     returnCb: d
                 }), a);
             }
@@ -2485,6 +2501,9 @@ FB.provide('XFBML', {
         localName: 'profile-pic',
         className: 'FB.XFBML.ProfilePic'
     }, {
+        localName: 'question',
+        className: 'FB.XFBML.Question'
+    }, {
         localName: 'read',
         className: 'FB.XFBML.Read'
     }, {
@@ -3083,7 +3102,7 @@ FB.provide('Helper', {
         return a < 2.2e+09 || (a >= 1e+14 && a <= 100099999989999);
     },
     getLoggedInUser: function() {
-        return FB._session ? FB._session.uid : null;
+        return FB.getUserID();
     },
     upperCaseFirstChar: function(a) {
         if (a.length > 0) {
@@ -4268,6 +4287,31 @@ FB.provide('XFBML.ProfilePic', {
         square: 'pic_square',
         t: 'pic_small',
         thumb: 'pic_small'
+    }
+});
+FB.subclass('XFBML.Question', 'XFBML.IframeWidget', null, {
+    _visibleAfter: 'load',
+    setupAndValidate: function() {
+        this._attr = {
+            channel: this.getChannelUrl(),
+            api_key: FB._apiKey,
+            permalink: this.getAttribute('permalink'),
+            width: this.getAttribute('width', 400),
+            height: 0
+        };
+        return true;
+    },
+    getSize: function() {
+        return {
+            width: this._attr.width,
+            height: this._attr.height
+        };
+    },
+    getUrlBits: function() {
+        return {
+            name: 'question',
+            params: this._attr
+        };
     }
 });
 FB.subclass('XFBML.Read', 'XFBML.IframeWidget', null, {
