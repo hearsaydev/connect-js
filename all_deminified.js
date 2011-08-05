@@ -1,4 +1,4 @@
-/*1312412724,169546110,JIT Construction: v416050,en_US*/
+/*1312520159,169918336,JIT Construction: v416929,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -30,6 +30,8 @@ if (!window.FB) window.FB = {
             return FB._domain.api_read;
         case 'cdn':
             return (window.location.protocol == 'https:' || FB._https) ? FB._domain.https_cdn : FB._domain.cdn;
+        case 'cdn_foreign':
+            return FB._domain.cdn_foreign;
         case 'https_cdn':
             return FB._domain.https_cdn;
         case 'graph':
@@ -246,7 +248,7 @@ FB.provide('Flash', {
             for (var a = 0, b = FB.Flash._callbacks.length; a < b; a++) FB.Flash._callbacks[a]();
             FB.Flash._callbacks = [];
         };
-        FB.Flash.embedSWF('XdComm', FB.getDomain('cdn') + FB.Flash._swfPath);
+        FB.Flash.embedSWF('XdComm', FB.getDomain('cdn_foreign') + FB.Flash._swfPath);
     },
     embedSWF: function(d, e, b) {
         var a = !! document.attachEvent,
@@ -4952,6 +4954,7 @@ FB.provide("", {
         "api": "https:\/\/api.facebook.com\/",
         "api_read": "https:\/\/api-read.facebook.com\/",
         "cdn": "https:\/\/s-static.ak.fbcdn.net\/",
+        "cdn_foreign": "https:\/\/connect.facebook.net\/",
         "graph": "https:\/\/graph.facebook.com\/",
         "https_cdn": "https:\/\/s-static.ak.fbcdn.net\/",
         "https_staticfb": "https:\/\/s-static.ak.facebook.com\/",
@@ -4968,7 +4971,7 @@ FB.provide("Flash", {
     "_minVersions": [
         [10, 0, 22, 87]
     ],
-    "_swfPath": "rsrc.php\/v1\/yx\/r\/WFg56j28XFs.swf"
+    "_swfPath": "rsrc.php\/v1\/yK\/r\/RIxWozDt5Qq.swf"
 }, true);
 FB.provide("XD", {
     "_xdProxyUrl": "connect\/xd_proxy.php?version=3"
