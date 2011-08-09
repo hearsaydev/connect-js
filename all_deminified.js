@@ -1,4 +1,4 @@
-/*1312520159,169918336,JIT Construction: v416929,en_US*/
+/*1312845275,169620159,JIT Construction: v418801,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -508,7 +508,7 @@ FB.provide('ApiServer', {
         FB.ApiServer.oauthRequest(b, 'restserver.php', 'get', e, a);
     },
     oauthRequest: function(b, f, c, e, a) {
-        if (FB.getAccessToken()) e.access_token = FB.getAccessToken();
+        if (!e.access_token && FB.getAccessToken()) e.access_token = FB.getAccessToken();
         e.sdk = 'joey';
         e.pretty = 0;
         var d = a;
