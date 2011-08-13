@@ -1,4 +1,4 @@
-/*1313103466,169922684,JIT Construction: v421347,en_US*/
+/*1313192031,169919358,JIT Construction: v422152,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -3027,15 +3027,14 @@ FB.provide('XFBML.IframeWidget', {
         var b = FB.guid();
         FB.Content.insertIframe({
             url: 'about:blank',
-            root: document.getElementById('fb-root') || document.body,
+            root: FB.Content.appendHidden(''),
             name: b,
-            className: 'fb_hidden',
             onload: function() {
                 FB.Content.submitToTarget({
-                    url: FB._domain.www + 'widget_pipe.php',
+                    url: FB._domain.www + 'widget_pipe.php?widget_pipe=1',
                     target: b,
                     params: c
-                }, true);
+                });
             }
         });
     },
