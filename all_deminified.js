@@ -1,4 +1,4 @@
-/*1313192031,169919358,JIT Construction: v422152,en_US*/
+/*1313449106,169588584,JIT Construction: v422969,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -544,6 +544,7 @@ FB.provide('ApiServer', {
             FB.ApiServer._callbacks[g](decodeURIComponent(f));
         };
         FB.Flash.onReady(function() {
+            if (b === 'graph') d.suppress_http_code = 1;
             var h = FB.getDomain(b) + e,
                 f = FB.QS.encode(d);
             if (c === 'get') {
