@@ -1,4 +1,4 @@
-/*1313634883,169572476,JIT Construction: v424768,en_US*/
+/*1313707245,169556595,JIT Construction: v425401,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -3112,8 +3112,10 @@ FB.subclass('XFBML.ButtonElement', 'XFBML.Element', null, {
             b = this.getButtonMarkup();
             a = 'fb_button' + c + ' fb_button_' + d + c;
         }
-        this.dom.innerHTML = ('<a class="' + a + '">' + '<span class="fb_button_text">' + b + '</span>' + '</a>');
-        this.dom.firstChild.onclick = FB.bind(this.onClick, this);
+        if (b !== '') {
+            this.dom.innerHTML = ('<a class="' + a + '">' + '<span class="fb_button_text">' + b + '</span>' + '</a>');
+            this.dom.firstChild.onclick = FB.bind(this.onClick, this);
+        }
         this.fire('render');
     }
 });
@@ -4054,6 +4056,8 @@ FB.subclass('XFBML.LoginButton', 'XFBML.ButtonElement', null, {
         if (!this._attr.registration_url) {
             if (FB.getAccessToken() && this._attr.autologoutlink) {
                 return FB.Intl._tx("Facebook Logout");
+            } else if (FB.getAccessToken()) {
+                return '';
             } else return this._getLoginText();
         } else switch (this._attr.status) {
         case 'unknown':
@@ -4062,7 +4066,7 @@ FB.subclass('XFBML.LoginButton', 'XFBML.ButtonElement', null, {
             return FB.Intl._tx("Register");
         case 'connected':
             if (FB.getAccessToken() && this._attr.autologoutlink) return FB.Intl._tx("Facebook Logout");
-            return this._getLoginText();
+            return '';
         default:
             FB.log('Unknown status: ' + this.status);
             return FB.Intl._tx("Log In");
