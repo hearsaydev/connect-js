@@ -1,4 +1,4 @@
-/*1314747222,169586804,JIT Construction: v432523,en_US*/
+/*1314829359,169879510,JIT Construction: v433230,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -979,11 +979,13 @@ FB.provide('Canvas', {
     _computeContentSize: function() {
         var a = document.body,
             c = document.documentElement,
-            d = a.offsetWidth + a.offsetLeft,
-            b = a.offsetHeight + a.offsetTop;
-        FB.Array.forEach(a.childNodes, function(e) {
-            d = Math.max(d, e.offsetWidth | 0 + e.offsetLeft | 0);
-            b = Math.max(b, e.offsetHeight | 0 + e.offsetTop | 0);
+            d = 0,
+            b = Math.max(Math.max(a.offsetHeight, a.scrollHeight) + a.offsetTop, Math.max(c.offsetHeight, c.scrollHeight) + c.offsetTop);
+        if (a.offsetWidth < a.scrollWidth) {
+            d = a.scrollWidth + a.offsetLeft;
+        } else FB.Array.forEach(a.childNodes, function(e) {
+            var f = e.offsetWidth + e.offsetLeft;
+            if (f > d) d = f;
         });
         if (c.clientLeft > 0) d += (c.clientLeft * 2);
         if (c.clientTop > 0) b += (c.clientTop * 2);
