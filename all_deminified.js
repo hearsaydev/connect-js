@@ -1,4 +1,4 @@
-/*1315533339,169934443,JIT Construction: v437458,en_US*/
+/*1315611233,169577064,JIT Construction: v438040,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -2505,6 +2505,9 @@ FB.provide('XFBML', {
             c = FB.Dom.getByClass(f + '-' + d, b);
         e = a.toArray(e);
         c = a.toArray(c);
+        c = a.filter(c, function(g) {
+            return !g.hasChildNodes() || (g.childNodes.length === 1 && g.childNodes[0].nodeType === 3);
+        });
         return a.merge(e, c);
     },
     parse: function(d, b) {
@@ -2556,7 +2559,7 @@ FB.provide('XFBML', {
         return (a && FB.Array.indexOf(['true', '1', 'yes', 'on'], a.toLowerCase()) > -1);
     },
     getAttr: function(b, a) {
-        return (b.getAttribute(a) || b.getAttribute(a.replace(/-/g, '_')) || b.getAttribute(a.replace(/-/g, '')) || b.getAttribute('data-' + a) || b.getAttribute('data-' + a.replace(/_/g, '-')) || b.getAttribute('data-' + a.replace(/_/g, '')) || null);
+        return (b.getAttribute(a) || b.getAttribute(a.replace(/_/g, '-')) || b.getAttribute(a.replace(/-/g, '_')) || b.getAttribute(a.replace(/-/g, '')) || b.getAttribute(a.replace(/_/g, '')) || b.getAttribute('data-' + a) || b.getAttribute('data-' + a.replace(/_/g, '-')) || b.getAttribute('data-' + a.replace(/-/g, '_')) || b.getAttribute('data-' + a.replace(/-/g, '')) || b.getAttribute('data-' + a.replace(/_/g, '')) || null);
     },
     _processElement: function(dom, tagInfo, cb) {
         var element = dom._element;
