@@ -1,4 +1,4 @@
-/*1315611233,169577064,JIT Construction: v438040,en_US*/
+/*1315960101,169917552,JIT Construction: v440498,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -877,8 +877,8 @@ FB.provide('Canvas', {
     getPageInfo: function(a) {
         var d = 'top.frames[' + window.name + ']';
         var b = FB.XD.handler(function(e) {
-            a && a(e);
-            for (var f in FB.Canvas._pageInfo) if (e[f]) FB.Canvas._pageInfo[f] = e[f];
+            for (var f in FB.Canvas._pageInfo) if (e[f]) FB.Canvas._pageInfo[f] = e[f] | 0;
+            a && a(FB.Canvas._pageInfo);
         }, d, true);
         var c = {
             channelUrl: b,
@@ -945,7 +945,7 @@ FB.provide('Canvas', {
             y: b
         });
     },
-    setAutoResize: function(b, a) {
+    setAutoGrow: function(b, a) {
         if (a === undefined && typeof b == "number") {
             a = b;
             b = true;
@@ -957,6 +957,9 @@ FB.provide('Canvas', {
             window.clearInterval(FB.Canvas._timer);
             FB.Canvas._timer = null;
         }
+    },
+    setAutoResize: function(b, a) {
+        return FB.Canvas.setAutoGrow(b, a);
     },
     isTabIframe: function() {
         return (window.name.indexOf('app_runner_') === 0);
@@ -997,11 +1000,6 @@ FB.provide('Canvas', {
             b = a.offsetHeight + d,
             g = e.scrollHeight + h,
             f = e.offsetHeight + h;
-        if (FB.initSitevars.computeContentSizeVersion >= 1) if (FB.UA._safari || FB.UA._chrome) {
-            c = 0;
-        } else if (FB.UA._firefox || FB.UA._opera) {
-            if (FB.initSitevars.computeContentSizeVersion >= 2) g = 0;
-        } else if (FB.UA._ie) g == f;
         bottom = Math.max(c, b, g, f);
         if (a.offsetWidth < a.scrollWidth) {
             i = a.scrollWidth + a.offsetLeft;
@@ -1600,13 +1598,19 @@ FB.provide('UIServer', {
             i = typeof window.screenY != 'undefined' ? window.screenY : window.screenTop,
             g = typeof window.outerWidth != 'undefined' ? window.outerWidth : document.documentElement.clientWidth,
             f = typeof window.outerHeight != 'undefined' ? window.outerHeight : (document.documentElement.clientHeight - 22),
-            k = b.size.width,
-            d = b.size.height,
+            k = FB.UA.mobile() ? null : b.size.width,
+            d = FB.UA.mobile() ? null : b.size.height,
             h = (a < 0) ? window.screen.width + a : a,
             e = parseInt(h + ((g - k) / 2), 10),
             j = parseInt(i + ((f - d) / 2.5), 10),
-            c = ('width=' + k + ',height=' + d + ',left=' + e + ',top=' + j + ',scrollbars=1');
-        if (b.name && (b.name == 'permissions.request' || b.name == 'permissions.oauth')) c += ',location=1,toolbar=0';
+            c = [];
+        if (k !== null) c.push('width=' + k);
+        if (d !== null) c.push('height=' + d);
+        c.push('left=' + e);
+        c.push('top=' + j);
+        c.push('scrollbars=1');
+        if (b.name == 'permissions.request' || b.name == 'permissions.oauth') c.push('location=1,toolbar=0');
+        c = c.join(',');
         if (b.post) {
             FB.UIServer.setLoadedNode(b, window.open('about:blank', b.id, c));
             FB.Content.submitToTarget({
@@ -2078,8 +2082,8 @@ FB.provide('Auth', {
 FB.provide('UIServer.Methods', {
     'permissions.request': {
         size: {
-            width: 627,
-            height: 326
+            width: (FB.UA.mobile() ? null : 627),
+            height: (FB.UA.mobile() ? null : 326)
         },
         transform: function(a) {
             if (!FB._apiKey) {
@@ -2108,8 +2112,8 @@ FB.provide('UIServer.Methods', {
     'permissions.oauth': {
         url: 'dialog/oauth',
         size: {
-            width: 627,
-            height: 326
+            width: (FB.UA.mobile() ? null : 627),
+            height: (FB.UA.mobile() ? null : 326)
         },
         transform: function(a) {
             if (!FB._apiKey) {
@@ -2574,7 +2578,7 @@ FB.provide('XFBML', {
                     var renderInIframe = false;
                     var addToProfile = false;
                     if (tagInfo.className === 'FB.XFBML.LoginButton') {
-                        addToProfile = (tagInfo.localName == 'add-to-profile');
+                        addToProfile = (tagInfo.localName == 'add-to-timeline');
                         renderInIframe = FB.XFBML.getBoolAttr(dom, 'render-in-iframe');
                         showFaces = addToProfile || FB.XFBML.getBoolAttr(dom, 'show-faces');
                         isLogin = addToProfile || renderInIframe || showFaces || FB.XFBML.getBoolAttr(dom, 'oneclick');
@@ -2629,7 +2633,7 @@ FB.provide('XFBML', {
         localName: 'add-profile-tab',
         className: 'FB.XFBML.AddProfileTab'
     }, {
-        localName: 'add-to-profile',
+        localName: 'add-to-timeline',
         className: 'FB.XFBML.LoginButton'
     }, {
         localName: 'bookmark',
@@ -3024,7 +3028,7 @@ FB.subclass('XFBML.IframeWidget', 'XFBML.Element', null, {
         return this.dom.getElementsByTagName('iframe')[0];
     },
     arbiterInform: function(event, b, a) {
-        if (!this.getIframeNode()) {
+        if (!this.loaded) {
             this.subscribe('iframe.onload', FB.bind(this.arbiterInform, this, event, b, a));
             return;
         }
@@ -3064,6 +3068,10 @@ FB.subclass('XFBML.IframeWidget', 'XFBML.Element', null, {
             width: b.width,
             onload: FB.bind(this.fire, this, 'iframe.onload')
         });
+        this.loaded = false;
+        this.subscribe('iframe.onload', FB.bind(function() {
+            this.loaded = true;
+        }, this));
     },
     generateWidgetPipeIframeName: function() {
         FB.XFBML.IframeWidget.widgetPipeIframeCount++;
@@ -4492,6 +4500,8 @@ FB.subclass('XFBML.Question', 'XFBML.IframeWidget', null, {
             width: this.getAttribute('width', 400),
             height: 0
         };
+        this.subscribe('xd.firstVote', FB.bind(this._onInitialVote, this));
+        this.subscribe('xd.vote', FB.bind(this._onChangedVote, this));
         return true;
     },
     getSize: function() {
@@ -4505,6 +4515,12 @@ FB.subclass('XFBML.Question', 'XFBML.IframeWidget', null, {
             name: 'question',
             params: this._attr
         };
+    },
+    _onInitialVote: function(a) {
+        FB.Event.fire('question.firstVote', this._attr.permalink, a.vote);
+    },
+    _onChangedVote: function(a) {
+        FB.Event.fire('question.vote', this._attr.permalink, a.vote);
     }
 });
 FB.subclass('XFBML.Recommendations', 'XFBML.IframeWidget', null, {
@@ -4755,8 +4771,11 @@ FB.subclass('XFBML.SocialBar', 'XFBML.IframeWidget', null, {
             channel: this.getChannelUrl(),
             api_key: FB._apiKey,
             font: this.getAttribute('font'),
-            colorscheme: this.getAttribute('colorscheme', 'light'),
+            colorscheme: this.getAttribute('colorscheme'),
+            side: this.getAttribute('side'),
             href: this.getAttribute('href', window.location.href),
+            site: this.getAttribute('site'),
+            action: this.getAttribute('action'),
             ref: this.getAttribute('ref'),
             trigger: f(this.getAttribute('trigger', '')),
             read_time: parseInt(this.getAttribute('read_time'), 10) || 30
@@ -4764,11 +4783,12 @@ FB.subclass('XFBML.SocialBar', 'XFBML.IframeWidget', null, {
         FB._inPlugin = true;
         this._showLoader = false;
         this.subscribe('iframe.onload', FB.bind(function() {
-            var h = this.dom.firstElementChild;
-            h.style.position = "fixed";
-            h.style.bottom = "0";
-            h.style.right = "10px";
-            h.style.zIndex = "999";
+            var h = this._attr.side || (FB._localeIsRtl ? 'left' : 'right');
+            var i = this.dom.firstElementChild;
+            i.style.position = "fixed";
+            i.style.bottom = "0";
+            i.style[h] = "10px";
+            i.style.zIndex = "999";
         }, this));
         var a = FB.bind(function() {
             FB.Event.unlisten(window, 'scroll', a);
@@ -4823,17 +4843,18 @@ FB.subclass('XFBML.SocialBar', 'XFBML.IframeWidget', null, {
         }, this);
         FB.Event.listen(window, 'blur', d);
         FB.Event.listen(window, 'focus', d);
+        this.resize_running = false;
         return true;
     },
     getSize: function() {
         return {
             height: 25,
-            width: 91
+            width: (this._attr.action == 'like' ? 96 : 140)
         };
     },
     calculateVisibility: function() {
         var b = document.documentElement.clientHeight;
-        if (!this.focused) return this.visible;
+        if (!this.focused && window.console && window.console.firebug) return this.visible;
         switch (this._attr.trigger) {
         case "manual":
             return false;
@@ -4848,11 +4869,32 @@ FB.subclass('XFBML.SocialBar', 'XFBML.IframeWidget', null, {
     },
     _handleResizeMsg: function(a) {
         if (!this.isValid()) return;
-        var b = {};
-        if (a.width) b.width = a.width + 'px';
-        if (a.height) b.height = a.height + 'px';
-        FB.Anim.ate(this.getIframeNode(), b, 200);
+        if (a.width) this.getIframeNode().style.width = a.width + 'px';
+        if (a.height) {
+            this._setNextResize(a.height);
+            this._checkNextResize();
+        }
         this._makeVisible();
+    },
+    _setNextResize: function(a) {
+        this.next_resize = a;
+    },
+    _checkNextResize: function() {
+        if (!this.next_resize || this.resize_running) return;
+        var b = this.getIframeNode();
+        var a = this.next_resize;
+        this.next_resize = null;
+        if (a <= b.offsetHeight) {
+            b.style.height = a + 'px';
+        } else {
+            this.resize_running = true;
+            FB.Anim.ate(b, {
+                height: a + 'px'
+            }, 300, FB.bind(function() {
+                this.resize_running = false;
+                this._checkNextResize();
+            }, this));
+        }
     }
 });
 FB.XFBML.SocialBar.markRead = function(a) {
