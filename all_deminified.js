@@ -1,4 +1,4 @@
-/*1317169082,169552507,JIT Construction: v449869,en_US*/
+/*1317338826,169932137,JIT Construction: v451107,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -893,7 +893,7 @@ FB.provide('Canvas', {
             var b = a[d];
             if (b.type != "application/x-shockwave-flash") continue;
             var c = false;
-            for (var e = 0; e < b.childNodes.length; e++) if (b.childNodes[e].nodeName == "PARAM" && b.childNodes[e].name == "wmode") if (b.childNodes[e].value != "window" && b.childNodes[e].value != "default") c = true;
+            for (var e = 0; e < b.childNodes.length; e++) if (b.childNodes[e].nodeName == "PARAM" && b.childNodes[e].name == "wmode") if (b.childNodes[e].value == "opaque" || b.childNodes[e].value == "transparent") c = true;
             if (!c) if (f.state == 'opened') {
                 b._old_visibility = b.style.visibility;
                 b.style.visibility = 'hidden';
