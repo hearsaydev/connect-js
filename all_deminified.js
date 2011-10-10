@@ -1,4 +1,4 @@
-/*1317857254,169573997,JIT Construction: v453818,en_US*/
+/*1318230952,169587826,JIT Construction: v455543,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -1702,11 +1702,18 @@ FB.provide('UIServer', {
                 width: 500,
                 height: 590
             };
-        } else {
-            var a = window.innerWidth / window.innerHeight > 1.2;
+        } else if (FB.UA.android()) {
             return {
-                width: window.innerWidth,
-                height: Math.max(window.innerHeight, (a ? screen.width : screen.height))
+                width: screen.availWidth,
+                height: screen.availHeight
+            };
+        } else {
+            var c = window.innerWidth;
+            var a = window.innerHeight;
+            var b = c / a > 1.2;
+            return {
+                width: c,
+                height: Math.max(a, (b ? screen.width : screen.height))
             };
         }
         return {
@@ -2326,7 +2333,11 @@ FB.provide('Frictionless', {
                 }
             }
             if (e) {
-                if (!b && e.frictionless) FB.Dialog._hideLoader();
+                if (!b && e.frictionless) {
+                    FB.Dialog._hideLoader();
+                    FB.Dialog._restoreBodyPosition();
+                    FB.Dialog._hideIPadOverlay();
+                }
                 delete e.frictionless;
             }
             a && a(e);
@@ -5234,6 +5245,7 @@ FB.provide('Auth', {
 FB.initSitevars = {
     "parseXFBMLBeforeDomReady": false,
     "computeContentSizeVersion": 0,
+    "corsKillSwitch": 1,
     "iframePermissions": {
         "read_stream": false,
         "manage_mailbox": false,
@@ -5280,7 +5292,7 @@ FB.provide("TemplateData", {
     "_enabled": true
 }, true);
 FB.provide("TemplateUI", {
-    "_version": 16
+    "_version": 17
 }, true);
 FB.provide("XFBML.ConnectBar", {
     "imgs": {
