@@ -1,4 +1,4 @@
-/*1318376976,169903474,JIT Construction: v456768,en_US*/
+/*1318553158,169912188,JIT Construction: v458253,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -2669,7 +2669,7 @@ FB.provide('XFBML', {
                     var addToTimeline = (tagInfo.className === 'FB.XFBML.AddToTimeline');
                     if ((tagInfo.className === 'FB.XFBML.LoginButton') || addToTimeline) {
                         renderInIframe = FB.XFBML.getBoolAttr(dom, 'render-in-iframe');
-                        mode = dom.getAttribute('mode');
+                        mode = FB.XFBML.getAttr(dom, 'mode');
                         showFaces = (addToTimeline && mode != 'button') || FB.XFBML.getBoolAttr(dom, 'show-faces');
                         isLogin = addToTimeline || renderInIframe || showFaces || FB.XFBML.getBoolAttr(dom, 'oneclick');
                         if (isLogin && !addToTimeline) fn = FB.XFBML.Login;
@@ -2682,13 +2682,13 @@ FB.provide('XFBML', {
                             add_to_profile: addToTimeline,
                             mode: mode
                         };
-                        var scope = dom.getAttribute('scope');
+                        var scope = FB.XFBML.getAttr(dom, 'scope');
                         if (scope) {
                             if (FB._oauth) {
                                 extraParams.scope = scope;
                             } else extraParams.perms = scope;
                         } else {
-                            var perms = dom.getAttribute('perms');
+                            var perms = FB.XFBML.getAttr(dom, 'perms');
                             if (perms) extraParams.perms = perms;
                         }
                         element.setExtraParams(extraParams);
