@@ -1,4 +1,4 @@
-/*1318553158,169912188,JIT Construction: v458253,en_US*/
+/*1318979801,169555073,JIT Construction: v460084,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -928,12 +928,16 @@ FB.provide('Canvas', {
             if (b.type != "application/x-shockwave-flash" && b.classid.toUpperCase() != FB.Canvas._flashClassID) continue;
             var c = false;
             for (var e = 0; e < b.childNodes.length; e++) if (b.childNodes[e].nodeName == "PARAM" && b.childNodes[e].name == "wmode") if (b.childNodes[e].value == "opaque" || b.childNodes[e].value == "transparent") c = true;
-            if (!c) if (f.state == 'opened') {
-                b._old_visibility = b.style.visibility;
-                b.style.visibility = 'hidden';
-            } else if (f.state == 'closed') {
-                b.style.visibility = b._old_visibility;
-                delete b._old_visibility;
+            if (!c) {
+                var g = Math.random();
+                if (g <= 1 / 1000) FB.api(FB._apiKey + '/occludespopups', 'post', {});
+                if (f.state == 'opened') {
+                    b._old_visibility = b.style.visibility;
+                    b.style.visibility = 'hidden';
+                } else if (f.state == 'closed') {
+                    b.style.visibility = b._old_visibility;
+                    delete b._old_visibility;
+                }
             }
         }
     },
@@ -2078,7 +2082,10 @@ FB.provide('Auth', {
         };
     },
     _getSessionOrigin: function() {
-        return FB.UA.nativeApp() ? 3 : (FB.UA.mobile() ? 2 : 1);
+        if (FB.UA.nativeApp()) return 3;
+        if (FB.UA.mobile()) return 2;
+        if (FB._inCanvas) return 5;
+        return 1;
     },
     xdNewHandler: function(b, c, d, a) {
         if (!FB._oauth) throw new Error('xdNewHandler should not be invoked unless ' + 'OAuth2 is being used.');
@@ -2117,13 +2124,6 @@ FB.provide('Auth', {
             };
             b && b(response);
         };
-    },
-    getOrigin: function() {
-        if (FB.UA.nativeApp()) {
-            return 3;
-        } else if (FB._inMobileCanvas) {
-            return 2;
-        } else return 1;
     },
     parseSignedRequest: function(d) {
         if (!d) return null;
@@ -2214,7 +2214,7 @@ FB.provide('UIServer.Methods', {
             FB.copy(a.params, {
                 client_id: FB._apiKey,
                 redirect_uri: FB.Auth.xdNewHandler(b, c, 'opener'),
-                origin: FB.Auth.getOrigin(),
+                origin: FB.Auth._getSessionOrigin(),
                 response_type: 'token,signed_request'
             });
             return a;
@@ -2264,7 +2264,7 @@ FB.provide('UIServer.Methods', {
             FB.copy(a.params, {
                 client_id: FB._apiKey,
                 redirect_uri: FB.Auth.xdNewHandler(b, c, 'parent'),
-                origin: FB.Auth.getOrigin(),
+                origin: FB.Auth._getSessionOrigin(),
                 response_type: 'token,signed_request,code'
             });
             return a;
@@ -3300,6 +3300,14 @@ FB.provide('TemplateUI', {
     },
     willWriteOnGet: function(b, a) {
         return FB.TemplateUI.isFrictionlessAppRequest(b, a) && a.to && FB.Frictionless.isAllowed(a.to);
+    }
+});
+FB.provide('URI', {
+    resolve: function(b) {
+        if (!b) return window.location.href;
+        var a = document.createElement('div');
+        a.innerHTML = '<a href="' + b.replace('"', '&quot;') + '"></a>';
+        return a.firstChild.href;
     }
 });
 FB.Class('XFBML.Element', function(a) {
@@ -4927,7 +4935,7 @@ FB.subclass('XFBML.RecommendationsBar', 'XFBML.IframeWidget', null, {
             font: this.getAttribute('font'),
             colorscheme: this.getAttribute('colorscheme'),
             side: this.getAttribute('side'),
-            href: this.getAttribute('href', window.location.href),
+            href: FB.URI.resolve(this.getAttribute('href')),
             site: this.getAttribute('site'),
             action: this.getAttribute('action'),
             ref: this.getAttribute('ref'),
