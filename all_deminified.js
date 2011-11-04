@@ -1,4 +1,4 @@
-/*1320193302,169893759,JIT Construction: v466493,en_US*/
+/*1320366218,169924482,JIT Construction: v467535,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -1631,7 +1631,7 @@ FB.provide('UIServer', {
         }
         var d = f.getXdRelation || FB.UIServer.getXdRelation;
         var i = d(a.params);
-        if (!(a.id in FB.UIServer._defaultCb) && !('next' in a.params)) a.params.next = FB.UIServer._xdResult(a.cb, a.id, i, true);
+        if (!(a.id in FB.UIServer._defaultCb) && !('next' in a.params) && !('redirect_uri' in a.params)) a.params.next = FB.UIServer._xdResult(a.cb, a.id, i, true);
         if (i === 'parent') a.params.channel_url = FB.UIServer._xdChannelHandler(e, 'parent.parent');
         a = FB.UIServer.prepareParams(a);
         return a;
@@ -3130,7 +3130,7 @@ FB.provide('TemplateData', {
     _localStorageTimeout: 60 * 60 * 24,
     _enabled: true,
     enabled: function() {
-        return FB.TemplateData._enabled && FB.TemplateData._initialized && FB.TemplateData.supportsLocalStorage() && FB._userStatus == 'connected' && FB.TemplateData.getResponse();
+        return FB.TemplateData._enabled && FB.TemplateData._initialized && FB.TemplateData.supportsLocalStorage() && FB._userStatus == 'connected' && FB.TemplateData.getResponse() && FB.TemplateData.getData().apprequests.template_data_enabled;
     },
     supportsLocalStorage: function() {
         try {
