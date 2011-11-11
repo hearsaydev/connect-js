@@ -1,4 +1,4 @@
-/*1320802276,169926259,JIT Construction: v469515,en_US*/
+/*1320969771,169912703,JIT Construction: v470768,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -1647,7 +1647,7 @@ FB.provide('UIServer', {
         } else {
             a.params = FB.JSON.flatten(a.params);
             var b = FB.QS.encode(a.params);
-            if (FB.UIServer.urlTooLongForIE(a.url + b)) {
+            if (!FB.UA.nativeApp() && FB.UIServer.urlTooLongForIE(a.url + '?' + b)) {
                 a.post = true;
             } else if (b) a.url += '?' + b;
         }
