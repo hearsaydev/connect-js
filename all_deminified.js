@@ -1,4 +1,4 @@
-/*1320969771,169912703,JIT Construction: v470768,en_US*/
+/*1321047554,169912182,JIT Construction: v470960,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -5358,6 +5358,7 @@ FB.initSitevars = {
     "parseXFBMLBeforeDomReady": false,
     "computeContentSizeVersion": 0,
     "enableMobile": 1,
+    "forceSecureXdProxy": 1,
     "iframePermissions": {
         "read_stream": false,
         "manage_mailbox": false,
