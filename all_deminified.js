@@ -1,4 +1,4 @@
-/*1321410177,169577323,JIT Construction: v473034,en_US*/
+/*1321490897,169578109,JIT Construction: v473769,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -3026,6 +3026,7 @@ window.setTimeout(function() {
                 FB.Array.forEach(c, function(f, e) {
                     if (f == '0') c[e] = 0;
                 });
+                c.oauth = true;
                 FB.init(c);
             }
         }
