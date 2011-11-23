@@ -1,4 +1,4 @@
-/*1321490897,169578109,JIT Construction: v473769,en_US*/
+/*1322016670,169940843,JIT Construction: v476372,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -1451,14 +1451,20 @@ FB.provide('Dialog', {
             b.style.height = FB.UIServer.getDefaultSize().height + 'px';
         }
     },
-    _handleOrientationChange: function() {
+    _handleOrientationChange: function(a) {
+        if (FB.UA.android() && screen.availWidth == FB.Dialog._availScreenWidth) {
+            window.setTimeout(FB.Dialog._handleOrientationChange, 50);
+            return;
+        }
+        FB.Dialog._availScreenWidth = screen.availWidth;
         if (FB.UA.iPad()) {
             FB.Dialog._centerActive(FB.Canvas.getPageInfo());
-        } else for (var a in FB.Dialog._dialogs) if (document.getElementById(a)) document.getElementById(a).style.width = FB.UIServer.getDefaultSize().width + 'px';
+        } else for (var b in FB.Dialog._dialogs) if (document.getElementById(b)) document.getElementById(b).style.width = FB.UIServer.getDefaultSize().width + 'px';
     },
     _addOrientationHandler: function() {
         if (!FB.UA.mobile()) return;
         var a = "onorientationchange" in window ? 'orientationchange' : 'resize';
+        FB.Dialog._availScreenWidth = screen.availWidth;
         FB.Event.listen(window, a, FB.Dialog._handleOrientationChange);
     },
     create: function(e) {
@@ -4225,11 +4231,13 @@ FB.subclass('XFBML.EdgeWidget', 'XFBML.IframeWidget', null, {
     },
     _getWidgetWidth: function() {
         var e = this._getLayout();
-        var g = this.getAttribute('send');
-        var h = this._shouldShowFaces() ? 'show' : 'hide';
-        var c = (this.getAttribute('action') === 'recommend' ? 130 : 90) + (g && g !== 'false' ? 60 : 0);
+        var h = this.getAttribute('send');
+        var i = this._shouldShowFaces() ? 'show' : 'hide';
+        var g = (this.getAttribute('action') === 'recommend');
+        var k = (g ? 265 : 225) + (h && h !== false ? 60 : 0);
+        var c = (g ? 130 : 90) + (h && h !== 'false' ? 60 : 0);
         var b = this.getAttribute('action') === 'recommend' ? 100 : 55;
-        var i = this.getAttribute('action') === 'recommend' ? 90 : 50;
+        var j = this.getAttribute('action') === 'recommend' ? 90 : 50;
         var f = {
             standard: {
                 show: 450,
@@ -4244,15 +4252,15 @@ FB.subclass('XFBML.EdgeWidget', 'XFBML.IframeWidget', null, {
                 hide: c
             },
             simple: {
-                show: i,
-                hide: i
+                show: j,
+                hide: j
             }
         };
-        var d = f[e][h];
-        var j = this._getPxAttribute('width', d);
+        var d = f[e][i];
+        var l = this._getPxAttribute('width', d);
         var a = {
             standard: {
-                min: 225,
+                min: k,
                 max: 900
             },
             box_count: {
@@ -4268,10 +4276,10 @@ FB.subclass('XFBML.EdgeWidget', 'XFBML.IframeWidget', null, {
                 max: 900
             }
         };
-        if (j < a[e].min) {
-            j = a[e].min;
-        } else if (j > a[e].max) j = a[e].max;
-        return j;
+        if (l < a[e].min) {
+            l = a[e].min;
+        } else if (l > a[e].max) l = a[e].max;
+        return l;
     },
     _getLayout: function() {
         return this._getAttributeFromList('layout', 'standard', ['standard', 'button_count', 'box_count', 'simple']);
@@ -5341,7 +5349,7 @@ FB.provide("", {
 }, true);
 FB.provide("Flash", {
     "_minVersions": [
-        [10, 0, 22, 87],
+        [10, 3, 181, 34],
         [11, 0, 0]
     ],
     "_swfPath": "rsrc.php\/v1\/yK\/r\/RIxWozDt5Qq.swf"
