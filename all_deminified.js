@@ -1,4 +1,4 @@
-/*1322016670,169940843,JIT Construction: v476372,en_US*/
+/*1322079325,169926252,JIT Construction: v476585,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -5349,7 +5349,7 @@ FB.provide("", {
 }, true);
 FB.provide("Flash", {
     "_minVersions": [
-        [10, 3, 181, 34],
+        [10, 0, 22, 87],
         [11, 0, 0]
     ],
     "_swfPath": "rsrc.php\/v1\/yK\/r\/RIxWozDt5Qq.swf"
