@@ -7,53 +7,35 @@
 
     public class PostMessage extends Object
     {
-        private var currentDomain:String;
         private var callback:String;
         private var connection:LocalConnection;
         private var connectionName:String;
+        private static var currentDomain:String;
 
         public function PostMessage()
         {
             this.connection = new LocalConnection();
             this.connection.client = this;
             this.connection.connect(Math.random().toString());
-            ExternalInterface.addCallback("postMessage_init", this.init);
             ExternalInterface.addCallback("postMessage_send", this.send);
             return;
         }// end function
 
-        public function getCurrentDomain() : String
-        {
-            if (!this.currentDomain)
-            {
-                try
-                {
-                    this.currentDomain = ExternalInterface.call("self.document.domain.toString");
-                    this.fbTrace("getCurrentDomain", {currentDomain:this.currentDomain});
-                }
-                catch (e)
-                {
-                    logError("getCurrentDomain error", e);
-                }
-            }
-            return this.currentDomain;
-        }// end function
-
         public function onFacebookDomain() : Boolean
         {
-            return /(^|\.)facebook\.com$""(^|\.)facebook\.com$/.test(this.getCurrentDomain()) || /(^|\.)fbcdn\.net$""(^|\.)fbcdn\.net$/.test(this.getCurrentDomain());
+            return /(^|\.)facebook\.com$""(^|\.)facebook\.com$/.test(getCurrentDomain()) || /(^|\.)fbcdn\.net$""(^|\.)fbcdn\.net$/.test(getCurrentDomain());
         }// end function
 
         public function init(param1:String, param2:String) : void
         {
             var cb:* = param1;
             var name:* = param2;
-            this.fbTrace("init", {cb:cb, name:name});
+            PostMessage.fbTrace("init", {cb:cb, name:name});
             try
             {
-                if (!this.onFacebookDomain() && PostMessage.extractDomain(name) != this.getCurrentDomain())
+                if (!this.onFacebookDomain() && PostMessage.extractDomain(name) != getCurrentDomain())
                 {
-                    this.logError("init", "name must be a URL on the current domain: " + name);
+                    PostMessage.logError("init", "name must be a URL on the current domain: " + name);
                 }
                 else
                 {
@@ -71,7 +53,7 @@
             }
             catch (e)
             {
-                logError("init", e.toString());
+                PostMessage.logError("init", e.toString());
             }
             return;
         }// end function
@@ -80,10 +62,10 @@
         {
             var msg:* = param1;
             var name:* = param2;
-            this.fbTrace("send", {name:name, msg:msg});
+            PostMessage.fbTrace("send", {name:name, msg:msg});
             if (!this.connection)
             {
-                this.logError("send", "connection has not been initialized.");
+                PostMessage.logError("send", "connection has not been initialized.");
                 return;
             }
             try
@@ -93,7 +75,7 @@
             }
             catch (e)
             {
-                logError("send", e.toString() + ". name: " + name + ", msg: " + msg);
+                PostMessage.logError("send", e.toString() + ". name: " + name + ", msg: " + msg);
             }
             return;
         }// end function
@@ -107,31 +89,19 @@
                 var evt:* = event;
                 try
                 {
-                    ExternalInterface.call(callback, encodeURIComponent(msg));
+                    XdComm.proxy(callback, encodeURIComponent(msg));
                 }
                 catch (e)
                 {
-                    logError("recv", e.toString());
+                    PostMessage.logError("recv", e.toString());
                 }
                 return;
             }// end function
             ;
-            this.fbTrace("recv", {msg:msg});
+            PostMessage.fbTrace("recv", {msg:msg});
             var timer:* = new Timer(1, 1);
             timer.addEventListener(TimerEvent.TIMER, deliverMessage);
             timer.start();
-            return;
-        }// end function
-
-        private function logError(param1:String, param2:Object) : void
-        {
-            XdComm.fbTrace("Error: XdComm.PostMessage." + param1, param2);
-            return;
-        }// end function
-
-        private function fbTrace(param1:String, param2:Object) : void
-        {
-            XdComm.fbTrace("XdComm.PostMessage." + param1, param2);
             return;
         }// end function
 
@@ -143,6 +113,35 @@
         public static function extractPathAndQuery(param1:String) : String
         {
             return /^\w+:\/\/[^\/]+(.*)$""^\w+:\/\/[^\/]+(.*)$/.exec(param1)[1];
+        }// end function
+
+        public static function getCurrentDomain() : String
+        {
+            if (!currentDomain)
+            {
+                try
+                {
+                    currentDomain = ExternalInterface.call("self.document.domain.toString");
+                    PostMessage.fbTrace("getCurrentDomain", {currentDomain:currentDomain});
+                }
+                catch (e)
+                {
+                    PostMessage.logError("getCurrentDomain error", e);
+                }
+            }
+            return currentDomain;
+        }// end function
+
+        private static function logError(param1:String, param2:String) : void
+        {
+            XdComm.fbTrace("Error: XdComm.PostMessage." + param1, {msg:param2});
+            return;
+        }// end function
+
+        private static function fbTrace(param1:String, param2:Object) : void
+        {
+            XdComm.fbTrace("XdComm.PostMessage." + param1, param2);
+            return;
         }// end function
 
     }

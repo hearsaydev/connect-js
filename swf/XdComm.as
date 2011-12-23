@@ -13,12 +13,20 @@
         private var _cacheContext:String = "unknown";
         private var postMessage:PostMessage;
         private static var requestIdCount:int = 0;
+        private static var initialized:Boolean = false;
+        private static var origin_validated:Boolean = false;
 
         public function XdComm()
         {
             XdComm.fbTrace("XdComm Constructor", {url:stage.loaderInfo.url});
-            Security.allowDomain("*");
-            Security.allowInsecureDomain("*");
+            if (XdComm.initialized)
+            {
+                return;
+            }
+            XdComm.initialized = true;
+            var _loc_1:* = PostMessage.getCurrentDomain();
+            Security.allowDomain(_loc_1);
+            Security.allowInsecureDomain(_loc_1);
             this.addEventListener(Event.ENTER_FRAME, this.init);
             return;
         }// end function
@@ -49,12 +57,20 @@
                 }
             }
             this.postMessage = new PostMessage();
+            ExternalInterface.addCallback("postMessage_init", this.initPostMessage);
             ExternalInterface.addCallback("sendXdHttpRequest", this.sendXdHttpRequest);
             ExternalInterface.addCallback("setCache", this.setCache);
             ExternalInterface.addCallback("getCache", this.getCache);
             ExternalInterface.addCallback("setCacheContext", this.setCacheContext);
             ExternalInterface.addCallback("clearAllCache", this.clearAllCache);
             ExternalInterface.call("FB_OnFlashXdCommReady");
+            return;
+        }// end function
+
+        private function initPostMessage(param1:String, param2:String) : void
+        {
+            origin_validated = true;
+            this.postMessage.init(param1, param2);
             return;
         }// end function
 
@@ -160,6 +176,15 @@
                 this.cache.data[this._cacheContext] = _loc_1;
             }
             return _loc_1;
+        }// end function
+
+        public static function proxy(param1:String, param2:String) : void
+        {
+            if (origin_validated)
+            {
+                ExternalInterface.call(param1, param2);
+            }
+            return;
         }// end function
 
         public static function traceObject(param1:Object, param2:int = 0, param3:String = "")
