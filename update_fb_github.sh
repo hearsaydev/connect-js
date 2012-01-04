@@ -12,7 +12,8 @@ then
   mkdir "swf"
 fi
 /usr/bin/wget https://connect.facebook.net/en_US/all.js -O ${JS_OUTPUT}
-/usr/bin/wget "http://static.ak.fbcdn.net/rsrc.php/v1/yx/r/WFg56j28XFs.swf" -O ${SWF_OUTPUT}
+SWF_FILE=`cat all_deminified.js  | grep --color=none "_swfPath\": " | sed -E "s/(.*?)swfPath\": \"rsrc.php(.*?.swf)\"/\2/" | sed 's/\\\\//g'`
+/usr/bin/wget "http://static.ak.fbcdn.net/rsrc.php/${SWF_FILE}" -O ${SWF_OUTPUT}
 /usr/bin/python jsbeautifier.py -o all_deminified.js ${JS_OUTPUT}
 # Avoid sending out unnecessary updates if only the timestamp has changed.
 ALL_JS_DIFF=`git diff --shortstat all_deminified.js | grep -v "1 insertions"`
