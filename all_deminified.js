@@ -1,4 +1,4 @@
-/*1325666131,169542508,JIT Construction: v491092,en_US*/
+/*1325702648,169893734,JIT Construction: v491232,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -22,14 +22,15 @@ if (!window.FB) window.FB = {
     },
     _locale: null,
     _localeIsRtl: false,
-    getDomain: function(a) {
+    getDomain: function(a, c) {
+        var b = !c && (window.location.protocol == 'https:' || FB._https);
         switch (a) {
         case 'api':
             return FB._domain.api;
         case 'api_read':
             return FB._domain.api_read;
         case 'cdn':
-            return (window.location.protocol == 'https:' || FB._https) ? FB._domain.https_cdn : FB._domain.cdn;
+            return b ? FB._domain.https_cdn : FB._domain.cdn;
         case 'cdn_foreign':
             return FB._domain.cdn_foreign;
         case 'https_cdn':
@@ -37,15 +38,15 @@ if (!window.FB) window.FB = {
         case 'graph':
             return FB._domain.graph;
         case 'staticfb':
-            return (document.referrer.indexOf('https:') == 0 || FB._https) ? FB._domain.https_staticfb : FB._domain.staticfb;
+            return b ? FB._domain.https_staticfb : FB._domain.staticfb;
         case 'https_staticfb':
             return FB._domain.https_staticfb;
         case 'www':
-            return (window.location.protocol == 'https:' || FB._https) ? FB._domain.https_www : FB._domain.www;
+            return b ? FB._domain.https_www : FB._domain.www;
         case 'https_www':
             return FB._domain.https_www;
         case 'm':
-            return (window.location.protocol == 'https:' || FB._https) ? FB._domain.https_m : FB._domain.m;
+            return b ? FB._domain.https_m : FB._domain.m;
         case 'https_m':
             return FB._domain.https_m;
         }
@@ -210,7 +211,9 @@ FB.provide('Content', {
             if (e.title) c.title = e.title;
             if (e.className) c.className = e.className;
             if (e.height) c.style.height = e.height + 'px';
-            if (e.width) c.style.width = e.width + 'px';
+            if (e.width) if (e.width == '100%') {
+                c.style.width = e.width;
+            } else c.style.width = e.width + 'px';
             e.root.appendChild(c);
             f = true;
             c.src = e.url;
@@ -877,7 +880,8 @@ FB.provide('Arbiter', {
                 return;
             } catch (b) {}
         }
-        var i = (FB.getDomain((c ? 'https_' : '') + 'staticfb') + FB.Arbiter._canvasProxyUrl + '#' + FB.QS.encode({
+        c |= (window != window.parent && document.referrer.indexOf('https:') === 0);
+        var i = (FB.getDomain((c ? 'https_' : '') + 'staticfb', true) + FB.Arbiter._canvasProxyUrl + '#' + FB.QS.encode({
             method: d,
             params: FB.JSON.stringify(f || {}),
             behavior: a || FB.Arbiter.BEHAVIOR_PERSISTENT,
@@ -919,7 +923,6 @@ FB.provide('Canvas', {
             frame: window.name
         };
         FB.Arbiter.inform('getPageInfo', c, 'top');
-        return FB.Canvas._pageInfo;
     },
     hideFlashElement: function(a) {
         a.style.visibility = 'hidden';
@@ -928,32 +931,33 @@ FB.provide('Canvas', {
         a.style.visibility = '';
     },
     _flashClassID: "CLSID:D27CDB6E-AE6D-11CF-96B8-444553540000",
-    _hideFlashCallback: function(g) {
+    _hideFlashCallback: function(h) {
         var a = window.document.getElementsByTagName('object');
-        for (var e = 0; e < a.length; e++) {
-            var c = a[e];
+        for (var f = 0; f < a.length; f++) {
+            var c = a[f];
             if (c.type.toLowerCase() != "application/x-shockwave-flash" && c.classid.toUpperCase() != FB.Canvas._flashClassID) continue;
-            var d = false;
-            for (var f = 0; f < c.childNodes.length; f++) if (c.childNodes[f].nodeName.toLowerCase() == "param" && c.childNodes[f].name.toLowerCase() == "wmode") if (c.childNodes[f].value.toLowerCase() == "opaque" || c.childNodes[f].value.toLowerCase() == "transparent") d = true;
-            if (!d) {
-                var h = Math.random();
-                if (h <= 1 / 1000) FB.api(FB._apiKey + '/occludespopups', 'post', {});
+            var e = false;
+            for (var g = 0; g < c.childNodes.length; g++) if (c.childNodes[g].nodeName.toLowerCase() == "param" && c.childNodes[g].name.toLowerCase() == "wmode") if (c.childNodes[g].value.toLowerCase() == "opaque" || c.childNodes[g].value.toLowerCase() == "transparent") e = true;
+            if (!e) {
+                var i = Math.random();
+                if (i <= 1 / 1000) FB.api(FB._apiKey + '/occludespopups', 'post', {});
                 if (FB.Canvas._devHideFlashCallback) {
-                    var i = 200;
+                    var j = 200;
                     var b = {
-                        state: g.state,
+                        state: h.state,
                         elem: c
                     };
-                    setTimeout(function(j) {
-                        if (j.state == 'opened') {
-                            FB.Canvas.hideFlashElement(j.elem);
-                        } else FB.Canvas.showFlashElement(j.elem);
-                    }.bind(this, b), i);
+                    var d = FB.bind(function(k) {
+                        if (k.state == 'opened') {
+                            FB.Canvas.hideFlashElement(k.elem);
+                        } else FB.Canvas.showFlashElement(k.elem);
+                    }, this, b);
+                    setTimeout(d, j);
                     FB.Canvas._devHideFlashCallback(b);
-                } else if (g.state == 'opened') {
+                } else if (h.state == 'opened') {
                     c._old_visibility = c.style.visibility;
                     c.style.visibility = 'hidden';
-                } else if (g.state == 'closed') {
+                } else if (h.state == 'closed') {
                     c.style.visibility = c._old_visibility;
                     delete c._old_visibility;
                 }
@@ -966,9 +970,6 @@ FB.provide('Canvas', {
     },
     init: function() {
         var b = FB.Dom.getViewportInfo();
-        FB.Canvas._pageInfo.clientWidth = b.width;
-        FB.Canvas._pageInfo.clientHeight = b.height;
-        FB.Canvas.getPageInfo();
         var a = FB.XD.handler(FB.Canvas._hideFlashCallback, 'top.frames[' + window.name + ']', true);
         FB.Arbiter.inform('iframeSetupFlashHiding', {
             channelUrl: a
@@ -1404,10 +1405,11 @@ FB.provide('Dialog', {
         FB.Dialog._setDialogSizes();
         FB.Dialog._lowerActive();
         FB.Dialog._active = a;
-        var b = FB.Canvas.getPageInfo(function(c) {
-            FB.Dialog._centerActive(c);
-        });
-        FB.Dialog._centerActive(b);
+        if (FB._inCanvas && FB.Canvas) {
+            FB.Canvas.getPageInfo(function(b) {
+                FB.Dialog._centerActive(b);
+            });
+        } else FB.Dialog._centerActive();
     },
     _lowerActive: function() {
         if (!FB.Dialog._active) return;
@@ -1429,7 +1431,8 @@ FB.provide('Dialog', {
         var f = (k.height - c) / 2.5;
         if (d < f) f = d;
         var e = k.height - c - f;
-        var j = i.scrollTop - i.offsetTop + (i.clientHeight - c) / 2;
+        var j = (k.height - c) / 2;
+        if (i) j = i.scrollTop - i.offsetTop + (i.clientHeight - c) / 2;
         if (j < f) {
             j = f;
         } else if (j > e) j = e;
@@ -1465,7 +1468,7 @@ FB.provide('Dialog', {
         }
         FB.Dialog._availScreenWidth = screen.availWidth;
         if (FB.UA.iPad()) {
-            FB.Dialog._centerActive(FB.Canvas.getPageInfo());
+            FB.Dialog._centerActive();
         } else for (var b in FB.Dialog._dialogs) if (document.getElementById(b)) document.getElementById(b).style.width = FB.UIServer.getDefaultSize().width + 'px';
     },
     _addOrientationHandler: function() {
@@ -2135,8 +2138,12 @@ FB.provide('Auth', {
                 };
                 FB.Auth.setAuthResponse(a, 'connected');
                 if (FB.Cookie.getEnabled()) {
-                    var c = (new Date()).getTime() + 1000 * a.expiresIn;
-                    FB.Cookie.setSignedRequestCookie(d.signed_request, c);
+                    var c;
+                    if (a.expiresIn === 0) {
+                        c = new Date();
+                        c = c.setMonth(c.getMonth() + 1);
+                    } else c = (new Date()).getTime() + a.expiresIn * 1000;
+                    FB.Cookie.setSignedRequestCookie(d.signed_request, c, d.base_domain);
                 }
             } else if (!FB._authResponse && a) {
                 FB.Auth.setAuthResponse(a, 'connected');
@@ -2331,11 +2338,12 @@ FB.provide('Cookie', {
         if (!a) return null;
         return a[1];
     },
-    setSignedRequestCookie: function(b, a) {
+    setSignedRequestCookie: function(c, b, a) {
         if (!FB._oauth) throw new Error('FB.Cookie.setSignedRequestCookie should only be ' + 'used with OAuth2.');
-        if (!b) throw new Error('Value passed to FB.Cookie.setSignedRequestCookie ' + 'was empty.');
+        if (!c) throw new Error('Value passed to FB.Cookie.setSignedRequestCookie ' + 'was empty.');
         if (!FB.Cookie.getEnabled()) return;
-        FB.Cookie.setRaw('fbsr_', b, a);
+        FB.Cookie.setRaw('fbsr_', c, b, a);
+        FB.Cookie._domain = a;
     },
     clearSignedRequestCookie: function() {
         if (!FB._oauth) throw new Error('FB.Cookie.setSignedRequestCookie should only be ' + 'used with OAuth2.');
@@ -2343,7 +2351,7 @@ FB.provide('Cookie', {
         FB.Cookie.setRaw('fbsr_', '', 0);
     },
     setRaw: function(c, e, d, a) {
-        var b = new Date(d * 1000).toGMTString();
+        var b = new Date(d).toGMTString();
         document.cookie = c + FB._apiKey + '=' + e + (e && d === 0 ? '' : '; expires=' + b) + '; path=/' + (a ? '; domain=.' + a : '');
     },
     set: function(a) {
@@ -3809,6 +3817,10 @@ FB.subclass('XFBML.Comments', 'XFBML.IframeWidget', null, {
         this.subscribe('xd.commentRemoved', FB.bind(this._handleCommentRemovedMsg, this));
     },
     getSize: function() {
+        if (this._attr.mobile) return {
+            width: '100%',
+            height: 160
+        };
         return {
             width: this._attr.width,
             height: 160
