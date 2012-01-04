@@ -1,4 +1,4 @@
-/*1325638932,169900662,JIT Construction: v490932,en_US*/
+/*1325641290,169581432,JIT Construction: v491092,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -2135,10 +2135,7 @@ FB.provide('Auth', {
                 };
                 FB.Auth.setAuthResponse(a, 'connected');
                 if (FB.Cookie.getEnabled()) {
-                    var c;
-                    if (a.expiresIn === 0) {
-                        c = (new Date()).addMonths(1).getTime();
-                    } else c = (new Date()).getTime() + a.expiresIn * 1000;
+                    var c = (new Date()).getTime() + 1000 * a.expiresIn;
                     FB.Cookie.setSignedRequestCookie(d.signed_request, c);
                 }
             } else if (!FB._authResponse && a) {
