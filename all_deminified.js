@@ -1,4 +1,4 @@
-/*1325702648,169893734,JIT Construction: v491232,en_US*/
+/*1325904874,169595766,JIT Construction: v492474,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -923,6 +923,7 @@ FB.provide('Canvas', {
             frame: window.name
         };
         FB.Arbiter.inform('getPageInfo', c, 'top');
+        return FB.Canvas._pageInfo;
     },
     hideFlashElement: function(a) {
         a.style.visibility = 'hidden';
@@ -970,6 +971,9 @@ FB.provide('Canvas', {
     },
     init: function() {
         var b = FB.Dom.getViewportInfo();
+        FB.Canvas._pageInfo.clientWidth = b.width;
+        FB.Canvas._pageInfo.clientHeight = b.height;
+        FB.Canvas.getPageInfo();
         var a = FB.XD.handler(FB.Canvas._hideFlashCallback, 'top.frames[' + window.name + ']', true);
         FB.Arbiter.inform('iframeSetupFlashHiding', {
             channelUrl: a
@@ -1405,11 +1409,10 @@ FB.provide('Dialog', {
         FB.Dialog._setDialogSizes();
         FB.Dialog._lowerActive();
         FB.Dialog._active = a;
-        if (FB._inCanvas && FB.Canvas) {
-            FB.Canvas.getPageInfo(function(b) {
-                FB.Dialog._centerActive(b);
-            });
-        } else FB.Dialog._centerActive();
+        var b = FB.Canvas.getPageInfo(function(c) {
+            FB.Dialog._centerActive(c);
+        });
+        FB.Dialog._centerActive(b);
     },
     _lowerActive: function() {
         if (!FB.Dialog._active) return;
@@ -1431,8 +1434,7 @@ FB.provide('Dialog', {
         var f = (k.height - c) / 2.5;
         if (d < f) f = d;
         var e = k.height - c - f;
-        var j = (k.height - c) / 2;
-        if (i) j = i.scrollTop - i.offsetTop + (i.clientHeight - c) / 2;
+        var j = i.scrollTop - i.offsetTop + (i.clientHeight - c) / 2;
         if (j < f) {
             j = f;
         } else if (j > e) j = e;
@@ -1468,7 +1470,7 @@ FB.provide('Dialog', {
         }
         FB.Dialog._availScreenWidth = screen.availWidth;
         if (FB.UA.iPad()) {
-            FB.Dialog._centerActive();
+            FB.Dialog._centerActive(FB.Canvas.getPageInfo());
         } else for (var b in FB.Dialog._dialogs) if (document.getElementById(b)) document.getElementById(b).style.width = FB.UIServer.getDefaultSize().width + 'px';
     },
     _addOrientationHandler: function() {
@@ -5386,6 +5388,7 @@ FB.initSitevars = {
     "parseXFBMLBeforeDomReady": false,
     "computeContentSizeVersion": 0,
     "enableMobile": 1,
+    "enableMobileComments": 0,
     "forceSecureXdProxy": 1,
     "iframePermissions": {
         "read_stream": false,
