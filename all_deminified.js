@@ -1,4 +1,4 @@
-/*1325904874,169595766,JIT Construction: v492474,en_US*/
+/*1326090220,169569647,JIT Construction: v492714,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -5388,7 +5388,7 @@ FB.initSitevars = {
     "parseXFBMLBeforeDomReady": false,
     "computeContentSizeVersion": 0,
     "enableMobile": 1,
-    "enableMobileComments": 0,
+    "enableMobileComments": 1,
     "forceSecureXdProxy": 1,
     "iframePermissions": {
         "read_stream": false,
