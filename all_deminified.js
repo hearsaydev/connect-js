@@ -1,4 +1,4 @@
-/*1326244842,169912191,JIT Construction: v493733,en_US*/
+/*1326331263,169573233,JIT Construction: v494375,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -1936,7 +1936,8 @@ FB.provide('', {
         } else if (FB._oauth) {
             FB.ui({
                 method: 'login.status',
-                display: 'none'
+                display: 'none',
+                domain: location.host
             }, c);
         } else FB.ui({
             method: 'auth.status',
@@ -1970,7 +1971,8 @@ FB.provide('', {
             }
             FB.ui(FB.copy({
                 method: 'permissions.oauth',
-                display: 'popup'
+                display: 'popup',
+                domain: location.host
             }, b || {}), a);
         } else FB.ui(FB.copy({
             method: 'permissions.request',
@@ -2134,35 +2136,38 @@ FB.provide('Auth', {
     },
     xdNewResponseWrapper: function(b, a) {
         if (!FB._oauth) throw new Error('xdNewResponseWrapper should not be invoked unless ' + 'OAuth2 is being used.');
-        return function(d) {
-            if (d.access_token) {
-                var e = FB.Auth.parseSignedRequest(d.signed_request);
+        return function(f) {
+            if (f.access_token) {
+                var g = FB.Auth.parseSignedRequest(f.signed_request);
                 a = {
-                    accessToken: d.access_token,
-                    userID: e.user_id,
-                    expiresIn: parseInt(d.expires_in, 10),
-                    signedRequest: d.signed_request
+                    accessToken: f.access_token,
+                    userID: g.user_id,
+                    expiresIn: parseInt(f.expires_in, 10),
+                    signedRequest: f.signed_request
                 };
                 FB.Auth.setAuthResponse(a, 'connected');
                 if (FB.Cookie.getEnabled()) {
-                    var c;
-                    if (a.expiresIn === 0) {
-                        c = new Date();
-                        c = c.setMonth(c.getMonth() + 1);
-                    } else c = (new Date()).getTime() + a.expiresIn * 1000;
-                    FB.Cookie.setSignedRequestCookie(d.signed_request, c, d.base_domain);
+                    var d = a.expiresIn === 0 ? 0 : (new Date()).getTime() + a.expiresIn * 1000;
+                    var c = FB.Cookie._domain || f.base_domain;
+                    FB.Cookie.setSignedRequestCookie(f.signed_request, d, c);
+                    if (c) {
+                        var e = FB.QS.encode({
+                            base_domain: c
+                        });
+                        FB.Cookie.setRaw('fbm_', e, d, c);
+                    }
                 }
             } else if (!FB._authResponse && a) {
                 FB.Auth.setAuthResponse(a, 'connected');
             } else if (!FB._authResponse) {
-                var f;
-                if (d.error && d.error === 'not_authorized') {
-                    f = 'not_authorized';
-                } else f = 'unknown';
-                FB.Auth.setAuthResponse(null, f);
+                var h;
+                if (f.error && f.error === 'not_authorized') {
+                    h = 'not_authorized';
+                } else h = 'unknown';
+                FB.Auth.setAuthResponse(null, h);
                 if (FB.Cookie.getEnabled()) FB.Cookie.clearSignedRequestCookie();
             }
-            if (d && d.https && !FB._https) FB._https = true;
+            if (f && f.https && !FB._https) FB._https = true;
             response = {
                 authResponse: FB._authResponse,
                 status: FB._userStatus
@@ -2260,7 +2265,8 @@ FB.provide('UIServer.Methods', {
                 client_id: FB._apiKey,
                 redirect_uri: FB.Auth.xdNewHandler(b, c, 'opener'),
                 origin: FB.Auth._getSessionOrigin(),
-                response_type: 'token,signed_request'
+                response_type: 'token,signed_request',
+                domain: location.host
             });
             return a;
         }
@@ -2310,7 +2316,8 @@ FB.provide('UIServer.Methods', {
                 client_id: FB._apiKey,
                 redirect_uri: FB.Auth.xdNewHandler(b, c, 'parent'),
                 origin: FB.Auth._getSessionOrigin(),
-                response_type: 'token,signed_request,code'
+                response_type: 'token,signed_request,code',
+                domain: location.host
             });
             return a;
         }
@@ -2325,7 +2332,8 @@ FB.provide('Cookie', {
     _domain: null,
     _enabled: false,
     setEnabled: function(a) {
-        FB.Cookie._enabled = a;
+        FB.Cookie._enabled = !! a;
+        if (typeof a == 'string') FB.Cookie._domain = a;
     },
     getEnabled: function() {
         return FB.Cookie._enabled;
@@ -2337,6 +2345,15 @@ FB.provide('Cookie', {
             b = FB.QS.decode(a[1]);
             b.expires = parseInt(b.expires, 10);
             FB.Cookie._domain = b.base_domain;
+        }
+        return b;
+    },
+    loadMeta: function() {
+        var a = document.cookie.match('\\bfbm_' + FB._apiKey + '="([^;]*)\\b'),
+            b;
+        if (a) {
+            b = FB.QS.decode(a[1]);
+            if (!FB.Cookie._domain) FB.Cookie._domain = b.base_domain;
         }
         return b;
     },
@@ -2355,7 +2372,7 @@ FB.provide('Cookie', {
     clearSignedRequestCookie: function() {
         if (!FB._oauth) throw new Error('FB.Cookie.setSignedRequestCookie should only be ' + 'used with OAuth2.');
         if (!FB.Cookie.getEnabled()) return;
-        FB.Cookie.setRaw('fbsr_', '', 0);
+        FB.Cookie.setRaw('fbsr_', '', 0, FB.Cookie._domain);
     },
     setRaw: function(c, e, d, a) {
         var b = new Date(d).toGMTString();
@@ -2451,6 +2468,7 @@ FB.provide('', {
                     var c = FB.Cookie.loadSignedRequest();
                     var b = FB.Auth.parseSignedRequest(c);
                     FB._userID = (b && b.user_id) || 0;
+                    FB.Cookie.loadMeta();
                 }
             } else {
                 a.session = a.session || FB.Cookie.load();
