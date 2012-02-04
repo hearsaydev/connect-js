@@ -1,4 +1,4 @@
-/*1328233643,169913965,JIT Construction: v504373,en_US*/
+/*1328318000,169926255,JIT Construction: v504922,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -1992,7 +1992,7 @@ FB.provide('Auth', {
         if (d && d.data && d.data.status && d.data.status == 'connected') {
             var c;
             var e = d.data.status;
-            if (d.data.https) FB._https = true;
+            if (d.data.https == 1) FB._https = true;
             var a = d.data.authResponse || null;
             c = FB.Auth.setAuthResponse(a, e);
             b && b(c);
@@ -2070,7 +2070,7 @@ FB.provide('Auth', {
                 FB.Auth.setAuthResponse(null, h);
                 if (FB.Cookie.getEnabled()) FB.Cookie.clearSignedRequestCookie();
             }
-            if (f && f.https && !FB._https) FB._https = true;
+            if (f && f.https == 1 && !FB._https) FB._https = true;
             response = {
                 authResponse: FB._authResponse,
                 status: FB._userStatus
