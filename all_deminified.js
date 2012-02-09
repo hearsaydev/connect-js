@@ -1,4 +1,4 @@
-/*1328762629,169926264,JIT Construction: v507490,en_US*/
+/*1328775410,169911401,JIT Construction: v507289,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -1725,9 +1725,7 @@ FB.provide('UIServer', {
         FB.UIServer._loadedNodes[a.id] = b;
     },
     getLoadedNode: function(a) {
-        var b = typeof a == 'object' ? a.id : a,
-            c = FB.UIServer._loadedNodes[b];
-        return c ? c.node : null;
+        return FB.UIServer._loadedNodes[a.id].node;
     },
     hidden: function(a) {
         a.className = 'FB_UI_Hidden';
@@ -1828,8 +1826,7 @@ FB.provide('UIServer', {
         });
     },
     _handleResizeMessage: function(a, b) {
-        var c = FB.UIServer.getLoadedNode[a];
-        if (!c) return;
+        var c = FB.UIServer._loadedNodes[a].node;
         if (b.height) c.style.height = b.height + 'px';
         if (b.width) c.style.width = b.width + 'px';
         FB.Arbiter.inform('resize.ack', b || {}, 'parent.frames[' + c.name + ']', true);
@@ -1863,14 +1860,14 @@ FB.provide('UIServer', {
     _xdChannelHandler: function(a, b) {
         var c = (FB.UIServer._forceHTTPS && FB.UA.ie() !== 7);
         return FB.XD.handler(function(d) {
-            var e = FB.UIServer.getLoadedNode[a];
+            var e = FB.UIServer._loadedNodes[a];
             if (!e) return;
             if (d.type == 'resize') {
                 FB.UIServer._handleResizeMessage(a, d);
             } else if (d.type == 'hide') {
-                FB.Dialog.hide(e);
+                FB.Dialog.hide(e.node);
             } else if (d.type == 'rendered') {
-                var f = FB.Dialog._findRoot(e);
+                var f = FB.Dialog._findRoot(e.node);
                 FB.Dialog.show(f);
             } else if (d.type == 'fireevent') FB.Event.fire(d.event);
         }, b, true, null, c);
@@ -1882,25 +1879,23 @@ FB.provide('UIServer', {
         }, c) + '&frame=' + b;
     },
     _xdRecv: function(a, b) {
-        var c = FB.UIServer.getLoadedNode[a.frame];
-        if (c) {
-            try {
-                if (FB.Dom.containsCss(c, 'FB_UI_Hidden')) {
-                    window.setTimeout(function() {
-                        c.parentNode.parentNode.removeChild(c.parentNode);
-                    }, 3000);
-                } else if (FB.Dom.containsCss(c, 'FB_UI_Dialog')) {
-                    FB.Dialog.remove(c);
-                    if (FB.TemplateUI && FB.UA.mobile()) FB.TemplateUI.populateCache();
-                }
-            } catch (d) {}
-            try {
-                if (c.close) {
-                    c.close();
-                    FB.UIServer._popupCount--;
-                }
-            } catch (e) {}
-        }
+        var c = FB.UIServer._loadedNodes[a.frame].node;
+        try {
+            if (FB.Dom.containsCss(c, 'FB_UI_Hidden')) {
+                window.setTimeout(function() {
+                    c.parentNode.parentNode.removeChild(c.parentNode);
+                }, 3000);
+            } else if (FB.Dom.containsCss(c, 'FB_UI_Dialog')) {
+                FB.Dialog.remove(c);
+                if (FB.TemplateUI && FB.UA.mobile()) FB.TemplateUI.populateCache();
+            }
+        } catch (d) {}
+        try {
+            if (c.close) {
+                c.close();
+                FB.UIServer._popupCount--;
+            }
+        } catch (e) {}
         delete FB.UIServer._loadedNodes[a.frame];
         delete FB.UIServer._defaultCb[a.frame];
         b(a);
@@ -3116,7 +3111,7 @@ FB.subclass('TemplateUI', 'Obj', function(a, b) {
         }
         a.ui_created = true;
         a.root = this.cachedCall.root;
-        FB.UIServer.setLoadedNode(a, FB.UIServer.getLoadedNode(this.cachedCall.id));
+        FB.UIServer.setLoadedNode(a, FB.UIServer._loadedNodes[this.cachedCall.id].node);
         delete FB.UIServer._loadedNodes[this.cachedCall.id];
         var c = FB.Dialog._dialogs[a.id];
         FB.Dialog._dialogs[this.cachedCall.id] = c;
