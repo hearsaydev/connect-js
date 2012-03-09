@@ -1,4 +1,4 @@
-/*1331059945,169892971,JIT Construction: v519364,en_US*/
+/*1331255546,169927803,JIT Construction: v520918,en_US*/
 
 if (!window.FB) window.FB = {
     _apiKey: null,
@@ -3688,7 +3688,7 @@ FB.subclass('XFBML.Comments', 'XFBML.IframeWidget', null, {
             if (c) {
                 a.fb_comment_id = c;
                 this.subscribe('render', FB.bind(function() {
-                    window.location.hash = this.getIframeNode().id;
+                    if (!window.location.hash) window.location.hash = this.getIframeNode().id;
                 }, this));
             }
         }
