@@ -1,7 +1,7 @@
-/*1331786923,169941610,JIT Construction: v523766,en_US*/
+/*1331854805,169933952,JIT Construction: v524375,en_US*/
 
 var FB;
-if (typeof FB === "undefined") {
+if (!FB) {
     FB = {};
     (function() {
         function bagofholding() {};
