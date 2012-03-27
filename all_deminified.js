@@ -1,4 +1,4 @@
-/*1332373330,169938281,JIT Construction: v526949,en_US*/
+/*1332887307,169902715,JIT Construction: v531581,en_US*/
 
 var FB;
 if (!FB) {
@@ -6265,7 +6265,7 @@ if (!FB) {
         });
         void(0);;
         __d("XDConfig", [], {
-            "XdUrl": "connect\/xd_arbiter.php?version=3",
+            "XdUrl": "connect\/xd_arbiter.php?version=4",
             "Flash": {
                 "path": "https:\/\/s-static.facebook.net\/rsrc.php\/v1\/ys\/r\/WON-TVLCpDP.swf"
             },
