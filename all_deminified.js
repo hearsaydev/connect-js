@@ -1,4 +1,4 @@
-/*1333583699,169893998,JIT Construction: v536313,en_US*/
+/*1333586939,169914219,JIT Construction: v536313,en_US*/
 
 var FB;
 if (!FB) {
@@ -6287,7 +6287,7 @@ if (!FB) {
             "useCdn": true
         });
         __d("SDKConfig", [], {
-            "legacy": true
+            "legacy": false
         });;
     }).call(FB);
 }
