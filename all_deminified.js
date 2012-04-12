@@ -1,4 +1,4 @@
-/*1334114687,169922159,JIT Construction: v539342,en_US*/
+/*1334188135,169907585,JIT Construction: v540064,en_US*/
 
 var FB;
 if (!FB) {
@@ -2618,8 +2618,7 @@ if (!FB) {
             genericTransform: function(a) {
                 if (a.params.display == 'dialog' || a.params.display == 'iframe') FB.copy(a.params, {
                     display: 'iframe',
-                    channel: FB.UIServer._xdChannelHandler(a.id, 'parent.parent'),
-                    xd_channel: FB.XD._channel
+                    channel: FB.UIServer._xdChannelHandler(a.id, 'parent.parent')
                 }, true);
                 return a;
             },
@@ -2657,8 +2656,7 @@ if (!FB) {
                     j = i(g.params);
                 if (!(g.id in FB.UIServer._defaultCb) && !('next' in g.params) && !('redirect_uri' in g.params)) g.params.next = FB.UIServer._xdResult(g.cb, g.id, j, true);
                 if (j === 'parent') FB.copy(g.params, {
-                    channel_url: FB.UIServer._xdChannelHandler(e, 'parent.parent'),
-                    xd_channel: FB.XD._channel
+                    channel_url: FB.UIServer._xdChannelHandler(e, 'parent.parent')
                 }, true);
                 g = FB.UIServer.prepareParams(g);
                 return g;
