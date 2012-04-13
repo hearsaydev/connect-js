@@ -1,4 +1,4 @@
-/*1334194051,169893997,JIT Construction: v540064,en_US*/
+/*1334277779,169927299,JIT Construction: v540760,en_US*/
 
 var FB;
 if (!FB) {
@@ -24,7 +24,7 @@ if (!FB) {
                 _inCanvas: /iframe_canvas|app_runner/.test(window.name),
                 _https: (function() {
                     if (location.protocol == 'https:' && window == window.top) return true;
-                    if (/_fb_https?_/.test(window.name)) return window.name.indexOf('_fb_https') != -1;
+                    if (/_fb_https?/.test(window.name)) return window.name.indexOf('_fb_https') != -1;
                 })(),
                 onlyUseHttps: function() {
                     return FB._https === true;
