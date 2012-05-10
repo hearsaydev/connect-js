@@ -1,4 +1,4 @@
-/*1336576348,169924736,JIT Construction: v554573,en_US*/
+/*1336608749,169920376,JIT Construction: v555087,en_US*/
 
 var FB;
 if (!FB) {
@@ -1119,6 +1119,12 @@ if (!FB) {
             }
         });
         FB.provide('JSON', {
+            stringify: function(a) {
+                return ES5('JSON', 'stringify', false, a);
+            },
+            parse: function(a) {
+                return ES5('JSON', 'parse', false, a);
+            },
             flatten: function(a) {
                 var b = {};
                 for (var c in a) if (a.hasOwnProperty(c)) {
