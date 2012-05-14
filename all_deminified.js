@@ -1,4 +1,4 @@
-/*1336608749,169920376,JIT Construction: v555087,en_US*/
+/*1337011796,169920899,JIT Construction: v555779,en_US*/
 
 var FB;
 if (!FB) {
@@ -7088,7 +7088,7 @@ if (!FB) {
             "migrate": 1
         });
         __d("XDConfig", [], {
-            "XdUrl": "connect\/xd_arbiter.php?version=5",
+            "XdUrl": "connect\/xd_arbiter.php?version=6",
             "Flash": {
                 "path": "https:\/\/s-static.ak.fbcdn.net\/rsrc.php\/v1\/ys\/r\/WON-TVLCpDP.swf"
             },
