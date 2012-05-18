@@ -1,4 +1,4 @@
-/*1337210204,169912705,JIT Construction: v558818,en_US*/
+/*1337357676,169941620,JIT Construction: v559610,en_US*/
 
 var FB;
 if (!FB) {
@@ -7063,7 +7063,7 @@ if (!FB) {
             }
         });
         __d("SDKConfig", [], {
-            "migrate": 1
+            "migrate": 0
         });
         __d("XDConfig", [], {
             "XdUrl": "connect\/xd_arbiter.php?version=6",
