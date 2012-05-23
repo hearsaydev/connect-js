@@ -1,4 +1,4 @@
-/*1337790462,169914741,JIT Construction: v561754,en_US*/
+/*1337805582,169894511,JIT Construction: v561754,en_US*/
 
 var FB;
 if (!FB) {
@@ -7161,7 +7161,7 @@ FB.widgetPipeEnabledApps = {
     "179150165472010": 1
 };
 FB.widgetPipeTagCountThreshold = 4;
-FB._iframeLoginButton = true;
+FB._iframeLoginButton = false;
 FB.provide("TemplateData", {
     "_enabled": 0
 }, true);
