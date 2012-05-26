@@ -1,4 +1,4 @@
-/*1337818542,169919101,JIT Construction: v562466,en_US*/
+/*1337995099,169919354,JIT Construction: v564062,en_US*/
 
 var FB;
 if (!FB) {
@@ -1310,6 +1310,7 @@ if (!FB) {
                     } else d.onerror();
                 };
                 d.onprogress = Function.prototype;
+                d.ontimeout = Function.prototype;
                 return e;
             },
             jsonp: function(a, b, c, d, e) {
@@ -1468,6 +1469,7 @@ if (!FB) {
                     } else m.onerror();
                 };
                 m.onprogress = Function.prototype;
+                m.ontimeout = Function.prototype;
                 return o;
             }
             function i(k, l, m, n) {
