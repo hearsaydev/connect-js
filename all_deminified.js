@@ -1,4 +1,4 @@
-/*1338534197,169918839,JIT Construction: v565860,en_US*/
+/*1338581466,169927803,JIT Construction: v565860,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -7261,7 +7261,7 @@ FB.provide('', {
     "widgetPipeTagCountThreshold": 4
 });
 FB.provide('', {
-    "_iframeLoginButton": 1
+    "_iframeLoginButton": 0
 });
 FB.provide("TemplateData", {
     "_enabled": 0
