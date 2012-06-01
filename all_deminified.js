@@ -1,4 +1,4 @@
-/*1338533117,169893246,JIT Construction: v566560,en_US*/
+/*1338534197,169918839,JIT Construction: v565860,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -1436,39 +1436,39 @@ window.FB || (function() {
             },
             _createCORSRequest: function(a, b, c) {
                 if (!window.XMLHttpRequest) return null;
-                var d = function() {},
-                    e = new XMLHttpRequest();
-                if ("withCredentials" in e) {
-                    e.open(a, b, true);
-                    e.setRequestHeader('Content-type', c);
+                var d = new XMLHttpRequest();
+                if ("withCredentials" in d) {
+                    d.open(a, b, true);
+                    d.setRequestHeader('Content-type', c);
                 } else if (window.XDomainRequest) {
-                    e = new XDomainRequest();
-                    e.open(a, b);
+                    d = new XDomainRequest();
+                    d.open(a, b);
                 } else return null;
-                var f = {
-                    send: function(g) {
-                        e.send(g);
+                var e = {
+                    send: function(f) {
+                        d.send(f);
                     }
                 };
-                e.onload = function() {
+                d.onload = function() {
                     FB.applyWithGuard(function() {
-                        e.onload = d;
-                        if ('onload' in f) f.onload(e);
+                        d.onload = Function.prototype;
+                        if ('onload' in e) e.onload(d);
                     });
                 };
-                e.onerror = function() {
+                d.onerror = function() {
                     FB.applyWithGuard(function() {
-                        e.onerror = d;
-                        if ('onerror' in f) f.onerror(e);
+                        d.onerror = Function.prototype;
+                        if ('onerror' in e) e.onerror(d);
                     });
                 };
-                e.onreadystatechange = function() {
-                    if (e.readyState == 4) if (e.status == 200) {
-                        e.onload();
-                    } else e.onerror();
+                d.onreadystatechange = function() {
+                    if (d.readyState == 4) if (d.status == 200) {
+                        d.onload();
+                    } else d.onerror();
                 };
-                e.onprogress = e.ontimeout = d;
-                return f;
+                d.onprogress = Function.prototype;
+                d.ontimeout = Function.prototype;
+                return e;
             },
             jsonp: function(a, b, c, d, e) {
                 var f = FB.guid(),
@@ -1570,8 +1570,7 @@ window.FB || (function() {
 
             function i(l, m) {
                 if (!window.XMLHttpRequest) return null;
-                var n = new XMLHttpRequest(),
-                    o = function() {};
+                var n = new XMLHttpRequest();
                 if ('withCredentials' in n) {
                     n.open(l, m, true);
                     n.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -1579,25 +1578,25 @@ window.FB || (function() {
                     n = new XDomainRequest();
                     try {
                         n.open(l, m);
-                    } catch (p) {
+                    } catch (o) {
                         return null;
                     }
                 } else return null;
-                var q = {
-                    send: function(r) {
-                        n.send(r);
+                var p = {
+                    send: function(q) {
+                        n.send(q);
                     }
                 };
                 n.onload = function() {
                     g(function() {
-                        n.onload = o;
-                        if ('onload' in q) q.onload(n);
+                        n.onload = Function.prototype;
+                        if ('onload' in p) p.onload(n);
                     });
                 };
                 n.onerror = function() {
                     g(function() {
-                        n.onerror = o;
-                        if ('onerror' in q) q.onerror(n);
+                        n.onerror = Function.prototype;
+                        if ('onerror' in p) p.onerror(n);
                     });
                 };
                 n.onreadystatechange = function() {
@@ -1605,8 +1604,9 @@ window.FB || (function() {
                         n.onload();
                     } else n.onerror();
                 };
-                n.onprogress = n.ontimeout = o;
-                return q;
+                n.onprogress = Function.prototype;
+                n.ontimeout = Function.prototype;
+                return p;
             }
             function j(l, m, n, o) {
                 n.suppress_http_code = 1;
