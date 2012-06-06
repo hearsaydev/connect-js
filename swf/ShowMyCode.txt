@@ -19,7 +19,7 @@
             ExternalInterface.addCallback("postMessage_send", this.send);
         }
         public static function extractDomain(_arg1:String):String{
-            return (/^\w+:\/\/(.*@)?([^:\/#?]*)/.exec(_arg1)[2]);
+            return (/^https?:\/\/([^\/\\?#]*@)?([^:\/\\#?]*)/.exec(_arg1)[2]);
         }
         public static function extractPathAndQuery(_arg1:String):String{
             return (/^\w+:\/\/[^\/]+(.*)$/.exec(_arg1)[1]);
@@ -220,7 +220,7 @@
                 url = ("http://" + url);
             };
             var host:* = PostMessage.extractDomain(url);
-            if (((((!((host == "api.facebook.com"))) && (!((host == "graph.facebook.com"))))) && (!(/^(api|graph)\.[A-Za-z0-9\-\.]+\.facebook\.com$/.test(host))))){
+            if (((((!((host == "api.facebook.com"))) && (!((host == "graph.facebook.com"))))) && (!(/^(api|api-read|graph)\.[A-Za-z0-9\-\.]+\.facebook\.com$/.test(host))))){
                 return (0);
             };
             XdComm.requestIdCount++;
