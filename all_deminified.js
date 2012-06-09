@@ -1,4 +1,4 @@
-/*1339118847,169903738,JIT Construction: v570203,en_US*/
+/*1339200853,169894783,JIT Construction: v571030,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -1640,7 +1640,7 @@ window.FB || (function() {
             var t = /iframe_canvas|app_runner/.test(window.name),
                 u = /dialog/.test(window.name),
                 v = (function() {
-                    if (location.protocol == 'https:' && (window == top || !t || !u)) return true;
+                    if (location.protocol == 'https:' && (window == top || !(t || u))) return true;
                     if (/_fb_https?/.test(window.name)) return ES5(window.name, 'indexOf', true, '_fb_https') != -1;
                 })();
 
