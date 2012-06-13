@@ -1,4 +1,4 @@
-/*1339551992,169898628,JIT Construction: v573035,en_US*/
+/*1339554152,169940091,JIT Construction: v573035,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -575,7 +575,7 @@ window.FB || (function() {
             }
         });
         __d("XDConfig", [], {
-            "XdUrl": "connect\/xd_arbiter.php?version=7",
+            "XdUrl": "connect\/xd_arbiter.php?version=8",
             "Flash": {
                 "path": "https:\/\/s-static.ak.fbcdn.net\/rsrc.php\/v1\/ys\/r\/WON-TVLCpDP.swf"
             },
@@ -6930,7 +6930,7 @@ FB.provide("", {
     "_localeIsRtl": false
 }, true);
 FB.provide("Arbiter", {
-    "_canvasProxyUrl": "connect\/canvas_proxy.php?version=7"
+    "_canvasProxyUrl": "connect\/canvas_proxy.php?version=8"
 }, true);
 FB.provide('Auth', {
     "_xdStorePath": "xd_localstorage\/v2"
