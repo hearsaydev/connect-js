@@ -1,4 +1,4 @@
-/*1340053072,169912959,JIT Construction: v575092,en_US*/
+/*1340062792,169898607,JIT Construction: v576126,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -1631,7 +1631,7 @@ window.FB || (function() {
                     z[ba] = ca;
                     if (g.seal) if (typeof ca === 'function' && !/^_/.test(ba)) aa[ba] = function() {
                         var da = ES5(Array.prototype.slice.call(arguments), 'map', true, function(ea) {
-                            return typeof ea === 'function' ?
+                            return typeof ea === 'function' && /^function/.test(ea.toString()) ?
                             function() {
                                 var fa = arguments;
                                 setTimeout(function() {
