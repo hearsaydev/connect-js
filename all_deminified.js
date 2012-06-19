@@ -1,4 +1,4 @@
-/*1340132014,169912432,JIT Construction: v576126,en_US*/
+/*1340134306,169904510,JIT Construction: v576126,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -571,7 +571,7 @@ window.FB || (function() {
         __d("SDKConfig", [], {
             "seal": true,
             "errorHandling": {
-                "rate": 0
+                "rate": 5
             }
         });
         __d("XDConfig", [], {
