@@ -12,7 +12,7 @@ then
   mkdir "swf"
 fi
 /usr/bin/wget https://connect.facebook.net/en_US/all.js -O ${JS_OUTPUT}
-SWF_FILE=`cat all_deminified.js  | grep --color=none "_swfPath\": " | sed -E "s/(.*?)swfPath\": \"rsrc.php(.*?.swf)\"/\2/" | sed 's/\\\\//g'`
+SWF_FILE=`cat all_deminified.js  | grep --color=none "path\": " | sed -E "s/(.*?)path\": \".*rsrc.php(.*?.swf)\"/\2/" | sed 's/\\\\//g'`
 /usr/bin/wget "http://static.ak.fbcdn.net/rsrc.php/${SWF_FILE}" -O ${SWF_OUTPUT}
 /usr/bin/python jsbeautifier.py -o all_deminified.js ${JS_OUTPUT}
 # Avoid sending out unnecessary updates if only the timestamp has changed.
