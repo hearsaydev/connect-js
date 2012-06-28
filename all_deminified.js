@@ -1,4 +1,4 @@
-/*1340835859,169892729,JIT Construction: v581908,en_US*/
+/*1340845637,169895529,JIT Construction: v581908,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -574,7 +574,7 @@ window.FB || (function() {
             },
             "api": {
                 "mode": "warn",
-                "whitelist": ["api", "init", "ui", "getAccessToken", "getAuthResponse", "getLoginStatus", "getUserID", "login", "logout", "Event", "Event.subscribe", "Event.unsubscribe", "XFBML", "XFBML.parse", "Canvas", "Canvas.Prefetcher.addStaticResource", "Canvas.Prefetcher.setCollectionMode", "Canvas.getPageInfo", "Canvas.hideFlashElement", "Canvas.showFlashElement", "Canvas.scrollTo", "Canvas.setAutoGrow", "Canvas.setAutoResize", "Canvas.setDoneLoading", "Canvas.setSize", "Canvas.setUrlHandler", "Canvas.startTimer", "Canvas.stopTimer", "Insights.impression", "Dom", "Dom.addCssRules", "Arbiter", "Arbiter.inform", "JSON", "JSON.parse", "JSON.stringify", "XD", "XD.onMessage", "Music", "Music.send", "Payment", "Payment.setSize", "CanvasInsights", "CanvasInsights.setDoneLoading", "Payment.init", "Music.init"]
+                "whitelist": ["api", "init", "ui", "getAccessToken", "getAuthResponse", "getLoginStatus", "getUserID", "login", "logout", "Event", "Event.subscribe", "Event.unsubscribe", "XFBML", "XFBML.parse", "Canvas", "Canvas.Prefetcher.addStaticResource", "Canvas.Prefetcher.setCollectionMode", "Canvas.getPageInfo", "Canvas.hideFlashElement", "Canvas.showFlashElement", "Canvas.scrollTo", "Canvas.setAutoGrow", "Canvas.setAutoResize", "Canvas.setDoneLoading", "Canvas.setSize", "Canvas.setUrlHandler", "Canvas.startTimer", "Canvas.stopTimer", "Insights.impression", "Dom", "Dom.addCssRules", "Arbiter", "Arbiter.inform", "JSON", "JSON.parse", "JSON.stringify", "XD", "XD.onMessage", "Music", "Music.send", "Payment", "Payment.setSize", "CanvasInsights", "CanvasInsights.setDoneLoading", "Payment.init", "Music.init", "Music.flashCallback", "Data", "Data.waitOn", "Data.query"]
             }
         });
         __d("XDConfig", [], {
