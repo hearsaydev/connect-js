@@ -1,4 +1,4 @@
-/*1340845637,169895529,JIT Construction: v581908,en_US*/
+/*1340917068,169940343,JIT Construction: v581908,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -7050,6 +7050,7 @@ FB.provide('', {
         "enableMobile": 1,
         "enableMobileComments": 1,
         "forceSecureXdProxy": 1,
+        "useAsync": 1,
         "iframePermissions": {
             "read_stream": false,
             "manage_mailbox": false,
