@@ -1,4 +1,4 @@
-/*1341364990,169916611,JIT Construction: v585470,en_US*/
+/*1341373700,169938038,JIT Construction: v585470,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -578,7 +578,7 @@ window.FB || (function() {
             }
         });
         __d("XDConfig", [], {
-            "XdUrl": "connect\/xd_arbiter.php?version=8",
+            "XdUrl": "connect\/xd_arbiter.php?version=9",
             "Flash": {
                 "path": "https:\/\/connect.facebook.net\/rsrc.php\/v1\/ys\/r\/WON-TVLCpDP.swf"
             },
@@ -6932,7 +6932,7 @@ FB.provide("", {
     "_localeIsRtl": false
 }, true);
 FB.provide("Arbiter", {
-    "_canvasProxyUrl": "connect\/canvas_proxy.php?version=8"
+    "_canvasProxyUrl": "connect\/canvas_proxy.php?version=9"
 }, true);
 FB.provide('Auth', {
     "_xdStorePath": "xd_localstorage\/v2"
@@ -6948,8 +6948,8 @@ FB.provide('', {
         "enableMobile": 1,
         "enableMobileComments": 1,
         "forceSecureXdProxy": 1,
-        "useAsync": 0,
-        "rpc": 0,
+        "useAsync": 1,
+        "rpc": 1,
         "iframePermissions": {
             "read_stream": false,
             "manage_mailbox": false,
