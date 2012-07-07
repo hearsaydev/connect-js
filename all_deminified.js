@@ -1,4 +1,4 @@
-/*1341428559,169917571,JIT Construction: v585470,en_US*/
+/*1341620844,169879511,JIT Construction: v586955,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -5013,6 +5013,7 @@ window.FB || (function() {
             _fetchPreCachedLoader: false,
             _visibleAfter: 'load',
             _widgetPipeEnabled: false,
+            _borderReset: false,
             getUrlBits: function() {
                 throw new Error('Inheriting class needs to implement getUrlBits().');
             },
@@ -5151,7 +5152,10 @@ window.FB || (function() {
                 if (!this.isValid()) return;
                 this._resizeIframe(a);
                 this._resizeFlow(a);
-                this.getIframeNode().style.border = 'none';
+                if (!this._borderReset) {
+                    this.getIframeNode().style.border = 'none';
+                    this._borderReset = true;
+                }
                 this._makeVisible();
             },
             _bubbleResizeEvent: function(a) {
