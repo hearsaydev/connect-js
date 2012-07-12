@@ -1,4 +1,4 @@
-/*1342126661,169924987,JIT Construction: v589925,en_US*/
+/*1342130008,169926781,JIT Construction: v589925,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -574,7 +574,7 @@ window.FB || (function() {
             },
             "api": {
                 "mode": "warn",
-                "whitelist": ["api", "init", "ui", "getAccessToken", "getAuthResponse", "getLoginStatus", "getUserID", "login", "logout", "Event", "Event.subscribe", "Event.unsubscribe", "XFBML", "XFBML.parse", "Canvas", "Canvas.Prefetcher.addStaticResource", "Canvas.Prefetcher.setCollectionMode", "Canvas.getPageInfo", "Canvas.hideFlashElement", "Canvas.showFlashElement", "Canvas.scrollTo", "Canvas.setAutoGrow", "Canvas.setAutoResize", "Canvas.setDoneLoading", "Canvas.setSize", "Canvas.setUrlHandler", "Canvas.startTimer", "Canvas.stopTimer", "Insights.impression", "Dom", "Dom.addCssRules", "Arbiter", "Arbiter.inform", "JSON", "JSON.parse", "JSON.stringify", "XD", "XD.onMessage", "Music", "Music.send", "Payment", "Payment.setSize", "CanvasInsights", "CanvasInsights.setDoneLoading", "Payment.init", "Music.init", "Music.flashCallback", "Data", "Data.waitOn", "Data.query"]
+                "whitelist": ["api", "init", "ui", "getAccessToken", "getAuthResponse", "getLoginStatus", "getUserID", "login", "logout", "Event", "Event.subscribe", "Event.unsubscribe", "XFBML", "XFBML.parse", "Canvas", "Canvas.Prefetcher.addStaticResource", "Canvas.Prefetcher.setCollectionMode", "Canvas.getPageInfo", "Canvas.hideFlashElement", "Canvas.showFlashElement", "Canvas.scrollTo", "Canvas.setAutoGrow", "Canvas.setAutoResize", "Canvas.setDoneLoading", "Canvas.setSize", "Canvas.setUrlHandler", "Canvas.startTimer", "Canvas.stopTimer", "Insights.impression", "Dom", "Dom.addCssRules", "Arbiter", "Arbiter.inform", "JSON", "JSON.parse", "JSON.stringify", "XD", "XD.onMessage", "Music", "Music.send", "Payment", "Payment.setSize", "CanvasInsights", "CanvasInsights.setDoneLoading", "Payment.init", "Music.init", "Music.flashCallback", "Data", "Data.waitOn", "Data.query", "UA", "UA.nativeApp"]
             }
         });
         __d("XDConfig", [], {
