@@ -1,4 +1,4 @@
-/*1342479056,169926523,JIT Construction: v591138,en_US*/
+/*1342482674,169898098,JIT Construction: v592070,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -4096,6 +4096,12 @@ window.FB || (function() {
             initSitevars: {},
             init: function(a) {
                 if (FB._initialized) FB.log('FB.init has already been called - this could indicate a problem');
+                if (typeof a === 'string') {
+                    FB.log('FB.init called with invalid parameters');
+                    a = {
+                        apiKey: a
+                    };
+                }
                 a = FB.copy(a || {}, {
                     logging: true,
                     status: true
