@@ -1,4 +1,4 @@
-/*1342652277,169899628,JIT Construction: v593394,en_US*/
+/*1342655517,169914229,JIT Construction: v593707,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -6340,7 +6340,7 @@ window.FB || (function() {
                     show_login_face: this._getBoolAttribute('show-login-face'),
                     size: this.getAttribute('size'),
                     login_text: this.dom.textContent || this.dom.innerText,
-                    registration_url: this.getAttribute('registration-url'),
+                    registration_url: FB.URI.resolve(this.getAttribute('registration-url')),
                     one_click: this.getAttribute('one-click'),
                     scope: this.getAttribute('scope') || this.getAttribute('perms'),
                     auto_logout_link: this._getBoolAttribute('auto-logout-link')
