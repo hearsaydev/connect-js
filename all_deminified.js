@@ -1,4 +1,4 @@
-/*1342738180,169895556,JIT Construction: v594203,en_US*/
+/*1342741870,169903469,JIT Construction: v594580,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -2540,7 +2540,7 @@ window.FB || (function() {
                 var b = window.document.getElementsByTagName('object');
                 for (var c = 0; c < b.length; c++) {
                     var d = b[c];
-                    if (d.type.toLowerCase() != "application/x-shockwave-flash" && d.classid.toUpperCase() != FB.Canvas._flashClassID) continue;
+                    if (d.type.toLowerCase() != "application/x-shockwave-flash" && (!d.classid || d.classid.toUpperCase() != FB.Canvas._flashClassID)) continue;
                     var e = false;
                     for (var f = 0; f < d.childNodes.length; f++) if (d.childNodes[f].nodeName.toLowerCase() == "param" && d.childNodes[f].name.toLowerCase() == "wmode") if (d.childNodes[f].value.toLowerCase() == "opaque" || d.childNodes[f].value.toLowerCase() == "transparent") e = true;
                     if (!e) {
