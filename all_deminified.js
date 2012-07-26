@@ -1,4 +1,4 @@
-/*1343177781,169942128,JIT Construction: v597466,en_US*/
+/*1343264192,169898863,JIT Construction: v598362,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -1636,12 +1636,14 @@ window.FB || (function() {
                     },
                     log: function(j, k, l, m) {
                         (new Image()).src = h.appendToUrl(g.resolve('www', true) + '/impression.php', {
-                            appId: j,
-                            eventaction: 'platform_app_issue',
-                            source: 'jssdk',
-                            type: k,
-                            category: l,
-                            payload: m
+                            lid: 113,
+                            api_key: j,
+                            payload: ES5('JSON', 'stringify', false, {
+                                source: 'jssdk',
+                                type: k,
+                                category: l,
+                                payload: m
+                            })
                         });
                     }
                 };
