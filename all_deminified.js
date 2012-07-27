@@ -1,4 +1,4 @@
-/*1343346278,169943146,JIT Construction: v599053,en_US*/
+/*1343375443,169916371,JIT Construction: v598661,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -714,13 +714,11 @@ window.FB || (function() {
             function p(t) {
                 var u = b[t];
                 if (u.special & f) i(t);
-                var v = c[t],
-                    w = [];
+                var v = c[t];
                 if (v) {
                     delete c[t];
-                    for (var x in v) if (h.call(v, x)) if (!--b[x].waiting) w.push(x);
+                    for (var w in v) if (h.call(v, w)) if (!--b[w].waiting) p(w);
                 }
-                for (var y = 0; y < w.length; y++) p(w[y]);
             }
             function q(t, u) {
                 b[t] = {
@@ -1728,13 +1726,6 @@ window.FB || (function() {
                                 o.warn('The method FB.%s is not officially supported by ' + 'Facebook and access to it will soon be removed.', ia);
                                 if (!w.hasOwnProperty(ia)) {
                                     n.log(s._apiKey, n.TYPE.WARNING, n.CATEGORY.DEPRECATED, 'FB.' + ia);
-                                    p.log('jssdk_error', {
-                                        appId: s._apiKey,
-                                        error: 'Private method used',
-                                        extra: {
-                                            args: ia
-                                        }
-                                    });
                                     w[ia] = true;
                                 }
                             }
@@ -1831,7 +1822,8 @@ window.FB || (function() {
                 safeEval: l
             });
             if (t) k(t, {
-                provide: y
+                provide: y,
+                Insights: n
             });
             e.exports = s;
         });
