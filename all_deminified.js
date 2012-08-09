@@ -1,4 +1,4 @@
-/*1344412340,169922685,JIT Construction: v606212,en_US*/
+/*1344470260,169922691,JIT Construction: v606826,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -1368,22 +1368,24 @@ window.FB || (function() {
                                 y[ga] = true;
                             }
                         }
-                        var ka = ES5(Array.prototype.slice.call(arguments), 'map', true, function(qa) {
-                            return typeof qa === 'function' && /^function/.test(qa.toString()) ? m.unguard(qa) : qa;
+                        var ka = ES5(Array.prototype.slice.call(arguments), 'map', true, function(ra) {
+                            return typeof ra === 'function' && /^function/.test(ra.toString()) ? m.unguard(ra) : ra;
                         }),
-                            la = fa.apply(ia, ka);
+                            la = fa.apply(ia, ka),
+                            ma, na = true;
                         if (la && typeof la === 'object') {
-                            var ma = Function();
-                            ma.prototype = la;
-                            var na = new ma();
-                            for (var oa in la) {
-                                var pa = la[oa];
-                                if (typeof pa !== 'function' || oa === 'constructor') continue;
-                                na[oa] = z(pa, ga + ':' + oa, oa, la);
+                            var oa = Function();
+                            oa.prototype = la;
+                            ma = new oa();
+                            for (var pa in la) {
+                                var qa = la[pa];
+                                if (typeof qa !== 'function' || pa === 'constructor') continue;
+                                na = false;
+                                ma[pa] = z(qa, ga + ':' + pa, pa, la);
                             }
-                            return na;
                         }
-                        return la;
+                        if (!na) return ma;
+                        return na ? la : ma;
                     }, ga);
                 }
             }
@@ -4408,8 +4410,8 @@ window.FB || (function() {
                         authResponse: a,
                         status: b
                     };
-                FB.Runtime.setAccessToken(a && a.accessToken || null);
                 FB.Runtime.setLoginStatus(b);
+                FB.Runtime.setAccessToken(a && a.accessToken || null);
                 FB.Runtime.setUserID(c);
                 FB._authResponse = a;
                 FB._userID = c;
@@ -4856,7 +4858,7 @@ window.FB || (function() {
                     FB._initialized = true;
                     FB.Runtime.setInitialized(true);
                     FB.Runtime.subscribe('AccessToken.change', function(d) {
-                        if (!d) FB.getLoginStatus(null, true);
+                        if (!d && FB.Runtime.getLoginStatus() === 'connected') FB.getLoginStatus(null, true);
                     });
                 }
             }
