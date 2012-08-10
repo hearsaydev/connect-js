@@ -1,4 +1,4 @@
-/*1344470260,169922691,JIT Construction: v606826,en_US*/
+/*1344559419,169925478,JIT Construction: v607651,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -553,7 +553,56 @@ window.FB || (function() {
             },
             "api": {
                 "mode": "warn",
-                "whitelist": ["api", "init", "ui", "getAccessToken", "getAuthResponse", "getLoginStatus", "getUserID", "login", "logout", "Event", "Event.subscribe", "Event.unsubscribe", "XFBML", "XFBML.parse", "Canvas", "Canvas.Prefetcher.addStaticResource", "Canvas.Prefetcher.setCollectionMode", "Canvas.getPageInfo", "Canvas.hideFlashElement", "Canvas.showFlashElement", "Canvas.scrollTo", "Canvas.setAutoGrow", "Canvas.setAutoResize", "Canvas.setDoneLoading", "Canvas.setSize", "Canvas.setUrlHandler", "Canvas.startTimer", "Canvas.stopTimer", "Insights.impression", "Dom", "Dom.addCssRules", "Arbiter", "Arbiter.inform", "JSON", "JSON.parse", "JSON.stringify", "XD", "XD.onMessage", "Music", "Music.send", "Payment", "Payment.setSize", "UA", "UA.nativeApp", "Payment.init", "Music.init", "Music.flashCallback", "Data", "Data.waitOn", "Data.query"]
+                "whitelist": {
+                    "0": "api",
+                    "1": "init",
+                    "2": "ui",
+                    "3": "getAccessToken",
+                    "4": "getAuthResponse",
+                    "5": "getLoginStatus",
+                    "6": "getUserID",
+                    "7": "login",
+                    "8": "logout",
+                    "9": "Event",
+                    "10": "Event.subscribe",
+                    "11": "Event.unsubscribe",
+                    "12": "XFBML",
+                    "13": "XFBML.parse",
+                    "14": "Canvas",
+                    "15": "Canvas.Prefetcher.addStaticResource",
+                    "16": "Canvas.Prefetcher.setCollectionMode",
+                    "17": "Canvas.getPageInfo",
+                    "18": "Canvas.hideFlashElement",
+                    "19": "Canvas.showFlashElement",
+                    "20": "Canvas.scrollTo",
+                    "21": "Canvas.setAutoGrow",
+                    "22": "Canvas.setAutoResize",
+                    "23": "Canvas.setDoneLoading",
+                    "24": "Canvas.setSize",
+                    "25": "Canvas.setUrlHandler",
+                    "26": "Canvas.startTimer",
+                    "27": "Canvas.stopTimer",
+                    "29": "Dom",
+                    "30": "Dom.addCssRules",
+                    "31": "Arbiter",
+                    "32": "Arbiter.inform",
+                    "33": "Insights",
+                    "34": "Insights.impression",
+                    "36": "XD",
+                    "37": "XD.onMessage",
+                    "38": "Music",
+                    "39": "Music.send",
+                    "40": "Payment",
+                    "41": "Payment.setSize",
+                    "42": "UA",
+                    "43": "UA.nativeApp",
+                    "44": "Payment.init",
+                    "45": "Music.init",
+                    "46": "Music.flashCallback",
+                    "47": "Data",
+                    "48": "Data.waitOn",
+                    "49": "Data.query"
+                }
             }
         });
         __d("ApiClientConfig", [], {
@@ -2780,8 +2829,7 @@ window.FB || (function() {
                     var ma = n.decode(la[1]),
                         na = i(ma.xd_rel);
                     m.debug('Passing fragment based message: %s', la[1]);
-                    var oa = na.FB;
-                    oa.wrapFunction(oa.XD.onMessage, 'entry', 'XD:message')(ma);
+                    na.FB.XD.onMessage(ma);
                     document.open();
                     document.close();
                 }
