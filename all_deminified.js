@@ -1,4 +1,4 @@
-/*1344559419,169925478,JIT Construction: v607651,en_US*/
+/*1344563739,169900657,JIT Construction: v607651,en_US*/
 
 window.FB || (function() {
     var ES5 = function() {
@@ -553,56 +553,7 @@ window.FB || (function() {
             },
             "api": {
                 "mode": "warn",
-                "whitelist": {
-                    "0": "api",
-                    "1": "init",
-                    "2": "ui",
-                    "3": "getAccessToken",
-                    "4": "getAuthResponse",
-                    "5": "getLoginStatus",
-                    "6": "getUserID",
-                    "7": "login",
-                    "8": "logout",
-                    "9": "Event",
-                    "10": "Event.subscribe",
-                    "11": "Event.unsubscribe",
-                    "12": "XFBML",
-                    "13": "XFBML.parse",
-                    "14": "Canvas",
-                    "15": "Canvas.Prefetcher.addStaticResource",
-                    "16": "Canvas.Prefetcher.setCollectionMode",
-                    "17": "Canvas.getPageInfo",
-                    "18": "Canvas.hideFlashElement",
-                    "19": "Canvas.showFlashElement",
-                    "20": "Canvas.scrollTo",
-                    "21": "Canvas.setAutoGrow",
-                    "22": "Canvas.setAutoResize",
-                    "23": "Canvas.setDoneLoading",
-                    "24": "Canvas.setSize",
-                    "25": "Canvas.setUrlHandler",
-                    "26": "Canvas.startTimer",
-                    "27": "Canvas.stopTimer",
-                    "29": "Dom",
-                    "30": "Dom.addCssRules",
-                    "31": "Arbiter",
-                    "32": "Arbiter.inform",
-                    "33": "Insights",
-                    "34": "Insights.impression",
-                    "36": "XD",
-                    "37": "XD.onMessage",
-                    "38": "Music",
-                    "39": "Music.send",
-                    "40": "Payment",
-                    "41": "Payment.setSize",
-                    "42": "UA",
-                    "43": "UA.nativeApp",
-                    "44": "Payment.init",
-                    "45": "Music.init",
-                    "46": "Music.flashCallback",
-                    "47": "Data",
-                    "48": "Data.waitOn",
-                    "49": "Data.query"
-                }
+                "whitelist": ["Arbiter", "Arbiter.inform", "Canvas", "Canvas.Prefetcher.addStaticResource", "Canvas.Prefetcher.setCollectionMode", "Canvas.getPageInfo", "Canvas.hideFlashElement", "Canvas.scrollTo", "Canvas.setAutoGrow", "Canvas.setAutoResize", "Canvas.setDoneLoading", "Canvas.setSize", "Canvas.setUrlHandler", "Canvas.showFlashElement", "Canvas.startTimer", "Canvas.stopTimer", "Data", "Data.query", "Data.waitOn", "Dom", "Dom.addCssRules", "Event", "Event.subscribe", "Event.unsubscribe", "Insights", "Insights.impression", "Music", "Music.flashCallback", "Music.init", "Music.send", "Payment", "Payment.init", "Payment.setSize", "UA", "UA.nativeApp", "XD", "XD.onMessage", "XFBML", "XFBML.parse", "api", "getAccessToken", "getAuthResponse", "getLoginStatus", "getUserID", "init", "login", "logout", "ui"]
             }
         });
         __d("ApiClientConfig", [], {
