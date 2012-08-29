@@ -1,4 +1,4 @@
-/*1346269565,169921922,JIT Construction: v618485,en_US*/
+/*1346277434,172629026,JIT Construction: v618485,en_US*/
 
 window.FB || (function(window) {
     var document = window.document;
@@ -548,7 +548,7 @@ window.FB || (function(window) {
         });
         __d("SDKConfig", [], {
             "xfbmlUseLegacy": true,
-            "migrate": true,
+            "migrate": false,
             "errorHandling": {
                 "rate": 2
             },
