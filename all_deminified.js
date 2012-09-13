@@ -1,4 +1,4 @@
-/*1347407948,171972126,JIT Construction: v625595,en_US*/
+/*1347493958,172676907,JIT Construction: v626389,en_US*/
 
 window.FB || (function(window) {
     var document = window.document;
@@ -5930,9 +5930,13 @@ window.FB || (function(window) {
             }
         });
     }, 3);
-    FB.Dom.ready(function() {
-        FB.require('DOMWrapper').setRoot(FB.Content.appendHidden(document.createElement('div')));
-    });
+    (function() {
+        var a = document.createElement('div');
+        FB.require('DOMWrapper').setRoot(a);
+        FB.Dom.ready(function() {
+            FB.Content.appendHidden(a);
+        });
+    })();
     FB.require('Log').level = 1;
     FB.provide('', {
         initSitevars: {},
