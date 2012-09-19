@@ -1,4 +1,4 @@
-/*1348016038,172018472,JIT Construction: v629987,en_US*/
+/*1348033785,172012577,JIT Construction: v630157,en_US*/
 
 window.FB || (function(window) {
     var document = window.document;
@@ -3515,7 +3515,7 @@ window.FB || (function(window) {
         });
     }, 3);
     __d("sdk.domReady", [], function(a, b, c, d, e, f) {
-        var g, h = "readyState" in document ? /interactive|loaded|complete/.test(document.readyState) : !! document.body;
+        var g, h = "readyState" in document ? /loaded|complete/.test(document.readyState) : !! document.body;
 
         function i() {
             if (!g) return;
@@ -3533,10 +3533,10 @@ window.FB || (function(window) {
             g = [];
             if (document.addEventListener) {
                 document.addEventListener('DOMContentLoaded', i, false);
-                document.addEventListener('load', i, false);
+                window.addEventListener('load', i, false);
             } else if (document.attachEvent) {
                 document.attachEvent('onreadystatechange', i);
-                document.attachEvent('onload', i);
+                window.attachEvent('onload', i);
             }
             if (document.documentElement.doScroll && window == window.top) {
                 var k = function() {
