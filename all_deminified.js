@@ -1,4 +1,4 @@
-/*1348087648,171972132,JIT Construction: v630157,en_US*/
+/*1348102440,172686620,JIT Construction: v630818,en_US*/
 
 window.FB || (function(window) {
     var document = window.document;
@@ -4950,7 +4950,7 @@ window.FB || (function(window) {
             return o[x.nodeName.toLowerCase()] || o[s(x).toLowerCase()];
         }
         function u(x) {
-            var y = ES5(ES5(x.className, 'trim', true).split(/\s+/), 'filter', true, function(z) {
+            var y = ES5(ES5((x.className + ''), 'trim', true).split(/\s+/), 'filter', true, function(z) {
                 return p[z];
             });
             if (y.length === 0) return undefined;
