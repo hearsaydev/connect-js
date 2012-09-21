@@ -1,4 +1,4 @@
-/*1348102440,172686620,JIT Construction: v630818,en_US*/
+/*1348188725,172035392,JIT Construction: v631652,en_US*/
 
 window.FB || (function(window) {
     var document = window.document;
@@ -2209,12 +2209,13 @@ window.FB || (function(window) {
 
         function j(m, n, o) {
             m = m + h.getClientID();
-            if (i) {
+            var p = i && i !== '.';
+            if (p) {
                 document.cookie = m + '=; expires=Wed, 04 Feb 2004 08:00:00 GMT;';
                 document.cookie = m + '=; expires=Wed, 04 Feb 2004 08:00:00 GMT;' + 'domain=' + location.hostname + ';';
             }
-            var p = new Date(o).toGMTString();
-            document.cookie = m + '=' + n + (n && o === 0 ? '' : '; expires=' + p) + '; path=/' + (i ? '; domain=' + i : '');
+            var q = new Date(o).toGMTString();
+            document.cookie = m + '=' + n + (n && o === 0 ? '' : '; expires=' + q) + '; path=/' + (p ? '; domain=' + i : '');
         }
         function k(m) {
             m = m + h.getClientID();
@@ -2225,7 +2226,7 @@ window.FB || (function(window) {
             setDomain: function(m) {
                 i = m;
                 var n = g.encode({
-                    base_domain: i
+                    base_domain: i && i !== '.' ? i : ''
                 }),
                     o = new Date();
                 o.setFullYear(o.getFullYear() + 1);
