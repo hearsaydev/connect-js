@@ -1,4 +1,4 @@
-/*1348188725,172035392,JIT Construction: v631652,en_US*/
+/*1348196285,172026400,JIT Construction: v631652,en_US*/
 
 window.FB || (function(window) {
     var document = window.document;
@@ -546,7 +546,7 @@ window.FB || (function(window) {
             "cdn_https": "s-static.ak.facebook.com"
         });
         __d("SDKConfig", [], {
-            "xfbmlUseLegacy": true,
+            "xfbmlUseLegacy": false,
             "useAsync": true,
             "migrate": true,
             "errorHandling": {
