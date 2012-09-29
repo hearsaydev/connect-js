@@ -1,4 +1,4 @@
-/*1348617492,172684847,JIT Construction: v634263,en_US*/
+/*1348880074,172684609,JIT Construction: v636851,en_US*/
 
 try {
     window.FB || (function(window) {
@@ -4702,89 +4702,92 @@ try {
                 q = 0,
                 r = new j();
 
-            function s(x) {
-                return x.scopeName ? (x.scopeName + ':' + x.nodeName) : '';
+            function s(y, z) {
+                return y[z] + '';
             }
-            function t(x) {
-                return o[x.nodeName.toLowerCase()] || o[s(x).toLowerCase()];
+            function t(y) {
+                return y.scopeName ? (y.scopeName + ':' + y.nodeName) : '';
             }
-            function u(x) {
-                var y = ES5(ES5((x.className + ''), 'trim', true).split(/\s+/), 'filter', true, function(z) {
-                    return p.hasOwnProperty(z);
+            function u(y) {
+                return o[s(y, 'nodeName').toLowerCase()] || o[t(y).toLowerCase()];
+            }
+            function v(y) {
+                var z = ES5(ES5(s(y, 'className'), 'trim', true).split(/\s+/), 'filter', true, function(aa) {
+                    return p.hasOwnProperty(aa);
                 });
-                if (y.length === 0) return undefined;
-                if (!x.childNodes || x.childNodes.length === 0 || (x.childNodes.length == 1 && x.childNodes[0].nodeType == 3) || x.getAttribute('fb-xfbml-state')) return p[y[0]];
+                if (z.length === 0) return undefined;
+                if (!y.childNodes || y.childNodes.length === 0 || (y.childNodes.length == 1 && y.childNodes[0].nodeType == 3) || y.getAttribute('fb-xfbml-state')) return p[z[0]];
             }
-            function v(x) {
-                var y = {};
-                ES5(l(x.attributes), 'forEach', true, function(z) {
-                    y[z.name] = z.value;
+            function w(y) {
+                var z = {};
+                ES5(l(y.attributes), 'forEach', true, function(aa) {
+                    z[s(aa, 'name')] = s(aa, 'value');
                 });
-                return y;
+                return z;
             }
-            function w(x, y, z) {
-                g.isTrue(x.nodeType && x.nodeType === 1 && !! x.getElementsByTagName, 'Invalid DOM node passed to FB.XFBML.parse()');
-                g.isFunction(y, 'Invalid callback passed to FB.XFBML.parse()');
-                var aa = ++q;
-                i.info('XFBML Parsing Start %s', aa);
-                var ba = 1,
-                    ca = 0,
-                    da = function() {
-                        ba--;
-                        if (ba === 0) {
-                            i.info('XFBML Parsing Finish %s, %s tags found', aa, ca);
-                            y();
-                            r.inform('render', aa, ca);
+            function x(y, z, aa) {
+                g.isTrue(y.nodeType && y.nodeType === 1 && !! y.getElementsByTagName, 'Invalid DOM node passed to FB.XFBML.parse()');
+                g.isFunction(z, 'Invalid callback passed to FB.XFBML.parse()');
+                var ba = ++q;
+                i.info('XFBML Parsing Start %s', ba);
+                var ca = 1,
+                    da = 0,
+                    ea = function() {
+                        ca--;
+                        if (ca === 0) {
+                            i.info('XFBML Parsing Finish %s, %s tags found', ba, da);
+                            z();
+                            r.inform('render', ba, da);
                         }
-                        g.isTrue(ba >= 0, 'onrender() has been called too many times');
+                        g.isTrue(ca >= 0, 'onrender() has been called too many times');
                     };
-                ES5(l(x.getElementsByTagName('*')), 'forEach', true, function(fa) {
-                    if (!z && fa.getAttribute('fb-xfbml-state')) return;
-                    var ga = t(fa) || u(fa);
-                    if (!ga) return;
-                    ba++;
+                ES5(l(y.getElementsByTagName('*')), 'forEach', true, function(ga) {
+                    if (!aa && ga.getAttribute('fb-xfbml-state')) return;
+                    var ha = u(ga) || v(ga);
+                    if (!ha) return;
                     ca++;
-                    var ha = ga.ctor || m(h, ga.className.substr(3)),
-                        ia = new ha(fa, ga.xmlns, ga.localName, v(fa));
-                    ia.subscribe('render', n(function() {
-                        fa.setAttribute('fb-xfbml-state', 'rendered');
-                        da();
+                    da++;
+                    var ia = ha.ctor || m(h, ha.className.substr(3)),
+                        ja = new ia(ga, ha.xmlns, ha.localName, w(ga));
+                    ja.subscribe('render', n(function() {
+                        ga.setAttribute('fb-xfbml-state', 'rendered');
+                        ea();
                     }));
-                    var ja = function() {
-                            if (fa.getAttribute('fb-xfbml-state') == 'parsed') {
-                                r.subscribe('render.queue', ja);
+                    var ka = function() {
+                            if (ga.getAttribute('fb-xfbml-state') == 'parsed') {
+                                r.subscribe('render.queue', ka);
                             } else {
-                                fa.setAttribute('fb-xfbml-state', 'parsed');
-                                ia.process();
+                                ga.setAttribute('fb-xfbml-state', 'parsed');
+                                ja.process();
                             }
                         };
-                    ja();
+                    ka();
                 });
-                r.inform('parse', aa, ca);
-                var ea = 30000;
+                r.inform('parse', ba, da);
+                var fa = 30000;
                 window.setTimeout(function() {
-                    if (ba > 0) i.warn('%s tags failed to render in %s ms', ba, ea);
-                }, ea);
-                da();
+                    if (ca > 0) i.warn('%s tags failed to render in %s ms', ca, fa);
+                }, fa);
+                ea();
             }
             r.subscribe('render', function() {
-                var x = r.getSubscribers('render.queue');
+                var y = r.getSubscribers('render.queue');
                 r.clearSubscribers('render.queue');
-                ES5(x, 'forEach', true, function(y) {
-                    y();
+                ES5(y, 'forEach', true, function(z) {
+                    z();
                 });
             });
             k(r, {
-                registerTag: function(x) {
-                    o[x.xmlns + ':' + x.localName] = x;
-                    p[x.xmlns + '-' + x.localName] = x;
+                registerTag: function(y) {
+                    o[y.xmlns + ':' + y.localName] = y;
+                    p[y.xmlns + '-' + y.localName] = y;
                 },
-                parse: function(x, y) {
-                    w(x || document.body, y ||
+                parse: function(y, z) {
+                    x(y || document.body, z ||
                     function() {}, true);
                 },
                 parseNew: function() {
-                    w(document.body, function() {}, false);
+                    x(document.body, function() {}, false);
                 }
             });
             e.exports = r;
