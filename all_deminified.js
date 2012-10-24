@@ -1,4 +1,4 @@
-/*1351068387,172655393,JIT Construction: v655092,en_US*/
+/*1351072707,171968546,JIT Construction: v655092,en_US*/
 
 /**
  * Copyright Facebook Inc.
@@ -620,7 +620,7 @@ try {
             "useCdn": true
         });
         __d("SDKConfig", [], {
-            "evenbigger": "change",
+            "evenbiggerandbigger": "change",
             "errorHandling": {
                 "rate": 4
             },
@@ -2323,8 +2323,8 @@ try {
                                 xd_name: pa
                             },
                                 va = '/' + u.XdUrl + '#' + l.encode(ua),
-                                wa = u.useCdn ? r.resolve('cdn_http', false) : 'http://www.facebook.com',
-                                xa = u.useCdn ? r.resolve('cdn_https') : 'https://www.facebook.com';
+                                wa = u.useCdn ? r.resolve('cdn', false) : 'http://www.facebook.com',
+                                xa = u.useCdn ? r.resolve('cdn', true) : 'https://www.facebook.com';
                             if (q.getSecure() !== true) z = h({
                                 url: wa + va,
                                 name: 'fb_xdm_frame_http',
