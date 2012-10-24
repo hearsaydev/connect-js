@@ -1,4 +1,4 @@
-/*1351057587,172022827,JIT Construction: v655092,en_US*/
+/*1351065147,171975985,JIT Construction: v655092,en_US*/
 
 /**
  * Copyright Facebook Inc.
@@ -620,6 +620,7 @@ try {
             "useCdn": true
         });
         __d("SDKConfig", [], {
+            "some": "change",
             "errorHandling": {
                 "rate": 4
             },
@@ -7290,6 +7291,7 @@ try {
                 if (document.namespaces && !document.namespaces.item.fb) document.namespaces.add('fb');
             } catch (k) {}
         }, 3);
+        require('sdk.Event').listen = require('DOMEventListener').add;
         void(0);
 
     }).call({}, window.inDapIF ? parent.window : window);
