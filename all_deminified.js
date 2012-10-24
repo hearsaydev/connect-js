@@ -1,4 +1,4 @@
-/*1351065147,171975985,JIT Construction: v655092,en_US*/
+/*1351068387,172655393,JIT Construction: v655092,en_US*/
 
 /**
  * Copyright Facebook Inc.
@@ -620,7 +620,7 @@ try {
             "useCdn": true
         });
         __d("SDKConfig", [], {
-            "some": "change",
+            "evenbigger": "change",
             "errorHandling": {
                 "rate": 4
             },
