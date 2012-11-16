@@ -1,4 +1,4 @@
-/*1353026684,179384119,JIT Construction: v672478,en_US*/
+/*1353031159,180692309,JIT Construction: v673046,en_US*/
 
 /**
  * Copyright Facebook Inc.
@@ -3834,11 +3834,11 @@ try {
                         },
                         transform: function(da) {
                             if (!w.getClientID()) {
-                                r.error('Log.errorin() called before FB.init().');
+                                r.error('FB.login() called before FB.init().');
                                 return;
                             }
                             if (g.getAuthResponse() && !da.params.scope) {
-                                r.error('Log.errorin() called when user is already connected.');
+                                r.error('FB.login() called when user is already connected.');
                                 da.cb && da.cb({
                                     status: w.getLoginStatus(),
                                     authResponse: g.getAuthResponse()
@@ -4309,11 +4309,15 @@ try {
 
             function n() {
                 var r = g.getWindow().document,
-                    s = r.documentElement,
-                    t = ES5([r.scrollHeight, s.scrollHeight, r.offsetHeight, s.offsetHeight, r.clientHeight, s.clientHeight], 'filter', true, function(u) {
-                        return !!u;
-                    });
-                return Math.max.apply(Math, t);
+                    s = r.body,
+                    t = r.documentElement,
+                    u = Math.max(s.offsetTop, 0),
+                    v = Math.max(t.offsetTop, 0),
+                    w = s.scrollHeight + u,
+                    x = s.offsetHeight + u,
+                    y = t.scrollHeight + v,
+                    z = t.offsetHeight + v;
+                return Math.max(w, x, y, z);
             }
             function o(r) {
                 if (!j.getInitialized() && arguments.callee.caller != p) h.warn('FB.init is required for setSize to take effect');
