@@ -16,7 +16,7 @@ SWF_FILE=`cat all_deminified.js  | grep --color=none "path\": " | sed -E "s/(.*?
 /usr/bin/wget "http://static.ak.fbcdn.net/rsrc.php/${SWF_FILE}" -O ${SWF_OUTPUT}
 /usr/bin/python jsbeautifier.py -o all_deminified.js ${JS_OUTPUT}
 # Avoid sending out unnecessary updates if only the timestamp has changed.
-ALL_JS_DIFF=`git diff --shortstat all_deminified.js | grep -v "1 insertions"`
+ALL_JS_DIFF=`git diff --shortstat all_deminified.js | grep -v "1 insertion"`
 #ALL_JS_DIFF=`git diff .`
 if [ ! -z "$ALL_JS_DIFF" ]                            
 then                                                  
