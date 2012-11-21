@@ -1,4 +1,4 @@
-/*1353455150,179317549,JIT Construction: v675468,en_US*/
+/*1353459308,181970463,JIT Construction: v676615,en_US*/
 
 /**
  * Copyright Facebook Inc.
@@ -60,14 +60,21 @@ try {
                 return g.exports;
             };
             __d = function(e, f, g, h) {
-                if (typeof g === 'function') {
+                switch (typeof g) {
+                case 'function':
                     b[e] = {
                         factory: g,
                         deps: d.concat(f),
                         exports: {}
                     };
                     if (h === 3) require(e);
-                } else c[e] = g;
+                    break;
+                case 'object':
+                    c[e] = g;
+                    break;
+                default:
+                    throw new TypeError('Wrong type for factory object');
+                }
             };
         })(this);
 
@@ -1167,8 +1174,11 @@ try {
                 opera: function() {
                     return v() || j;
                 },
-                safari: function() {
+                webkit: function() {
                     return v() || k;
+                },
+                safari: function() {
+                    return w.webkit();
                 },
                 chrome: function() {
                     return v() || l;
@@ -1640,8 +1650,9 @@ try {
         __d("resolveURI", [], function(a, b, c, d, e, f) {
             function g(h) {
                 if (!h) return window.location.href;
+                h = h.replace(/&/g, '&amp;').replace(/"/g, '&quot;');
                 var i = document.createElement('div');
-                i.innerHTML = '<a href="' + h.replace(/"/g, '&quot;') + '"></a>';
+                i.innerHTML = '<a href="' + h + '"></a>';
                 return i.firstChild.href;
             }
             e.exports = g;
@@ -4277,7 +4288,6 @@ try {
                     }, n);
                 }
             });
-            i.provide('Auth', e);
             e.subscribe('logout', ES5(h.fire, 'bind', true, h, 'auth.logout'));
             e.subscribe('login', ES5(h.fire, 'bind', true, h, 'auth.login'));
             e.subscribe('authresponse.change', ES5(h.fire, 'bind', true, h, 'auth.authResponseChange'));
@@ -4288,7 +4298,7 @@ try {
                     e.setAuthResponse(n.authResponse, 'connected');
                 } else if (k.getUseCookie()) {
                     var o = f.loadSignedRequest();
-                    try {
+                    if (o) try {
                         var q = l.parse(o);
                         k.setUserID(q.user_id || 0);
                     } catch (p) {
@@ -4764,7 +4774,7 @@ try {
                 m = b('sdk.Waitable'),
                 n = {
                     query: function(o, p) {
-                        var q = new j().parse(arguments);
+                        var q = new j().parse(Array.prototype.slice.call(arguments));
                         n.queue.push(q);
                         n._waitToProcess();
                         return q;
