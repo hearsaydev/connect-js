@@ -1,4 +1,4 @@
-/*1354363197,176967029,JIT Construction: v683733,en_US*/
+/*1354668915,180636483,JIT Construction: v686425,en_US*/
 
 /**
  * Copyright Facebook Inc.
@@ -4430,32 +4430,19 @@ try {
         __d("sdk.Canvas.Navigation", ["sdk.RPC"], function(a, b, c, d, e, f) {
             var g = b('sdk.RPC');
 
-            function h(l) {
-                l = l.replace(/[{}<\[\]>#%"]/, encodeURIComponent);
-                g.remote.setHash(l);
-            }
-            function i(l) {
-                g.remote.getHash(function(m) {
-                    l(m.result);
-                });
-            }
-            function j(l) {
-                g.local.navigate = function(m) {
-                    l({
-                        path: m
+            function h(j) {
+                g.local.navigate = function(k) {
+                    j({
+                        path: k
                     });
                 };
                 g.remote.setNavigationEnabled(true);
             }
             g.stub('setNavigationEnabled');
-            g.stub('getHash');
-            g.stub('setHash');
-            var k = {
-                getHash: i,
-                setHash: h,
-                setUrlHandler: j
+            var i = {
+                setUrlHandler: h
             };
-            e.exports = k;
+            e.exports = i;
         });
         __d("sdk.Canvas.Tti", ["sdk.RPC", "sdk.Runtime"], function(a, b, c, d, e, f) {
             var g = b('sdk.RPC'),
@@ -5254,7 +5241,7 @@ try {
                 v = [];
 
             function w() {
-                return !!(p.usePluginPipe && (r.chrome() || r.firefox()) && m.enabledApps[o.getClientID()]);
+                return !!(p.usePluginPipe && o.getSecure() !== undefined && (r.chrome() || r.firefox()) && m.enabledApps[o.getClientID()]);
             }
             function x() {
                 var z = v;
@@ -5274,7 +5261,7 @@ try {
                 ES5(z, 'forEach', true, function(ca) {
                     var da = {};
                     for (var ea in ca.config) da[ea] = ca.config[ea];
-                    da.url = q.resolve('www') + '/plugins/plugin_pipe_shell.php';
+                    da.url = q.resolve('www', o.getSecure()) + '/plugins/plugin_pipe_shell.php';
                     da.onload = ba;
                     j(da);
                 });
@@ -5302,7 +5289,7 @@ try {
                     ga.onload = fa.config.onload;
                 });
                 j({
-                    url: q.resolve('www') + '/plugins/pipe/?' + ea,
+                    url: q.resolve('www', o.getSecure()) + '/plugins/pipe/?' + ea,
                     root: aa,
                     name: i(),
                     className: 'fb_hidden fb_invisible'
@@ -5493,6 +5480,11 @@ try {
                     action: 'string',
                     size: 'string',
                     max_rows: 'string'
+                },
+                follow: {
+                    href: 'url',
+                    layout: 'string',
+                    show_faces: 'bool'
                 },
                 page_events: {
                     href: 'url'
