@@ -1,4 +1,4 @@
-/*1354668915,180636483,JIT Construction: v686425,en_US*/
+/*1354675418,180694597,JIT Construction: v686425,en_US*/
 
 /**
  * Copyright Facebook Inc.
@@ -687,9 +687,7 @@ try {
         __d("PluginPipeConfig", [], {
             "threshold": 0,
             "enabledApps": {
-                "111476658864976": 1,
-                "cca6477272fc5cb805f85a84f20fca1d": 1,
-                "179150165472010": 1
+                "209753825810663": 1
             }
         });
         __d("ConnectBarConfig", [], {
