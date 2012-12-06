@@ -1,4 +1,4 @@
-/*1354733888,181977665,JIT Construction: v687022,en_US*/
+/*1354758948,171218469,JIT Construction: v687657,en_US*/
 
 /**
  * Copyright Facebook Inc.
@@ -3832,7 +3832,7 @@ try {
                         url: 'dialog/oauth',
                         size: {
                             width: (y.mobile() ? null : 440),
-                            height: (y.mobile() ? null : 196)
+                            height: (y.mobile() ? null : 186)
                         },
                         transform: function(da) {
                             if (!w.getClientID()) {
