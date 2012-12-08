@@ -1,4 +1,4 @@
-/*1354841575,180771129,JIT Construction: v688594,en_US*/
+/*1354927449,180801621,JIT Construction: v688594,en_US*/
 
 /**
  * Copyright Facebook Inc.
@@ -614,7 +614,7 @@ try {
             "api_https": "api.facebook.com",
             "api_read_https": "api-read.facebook.com",
             "graph_https": "graph.facebook.com",
-            "fbcdn_http": "s-static.ak.fbcdn.net",
+            "fbcdn_http": "fbstatic-a.akamaihd.net",
             "fbcdn_https": "s-static.ak.fbcdn.net",
             "cdn_http": "static.ak.facebook.com",
             "cdn_https": "s-static.ak.facebook.com"
