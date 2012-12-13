@@ -1,4 +1,4 @@
-/*1355355790,180791589,JIT Construction: v693436,en_US*/
+/*1355359992,180639527,JIT Construction: v692889,en_US*/
 
 /**
  * Copyright Facebook Inc.
@@ -3794,6 +3794,24 @@ try {
                             return da;
                         }
                     },
+                    'auth.logintofacebook': {
+                        size: {
+                            width: 530,
+                            height: 287
+                        },
+                        url: 'login.php',
+                        transform: function(da) {
+                            da.params.skip_api_login = 1;
+                            var ea = ca.getXdRelation(da.params),
+                                fa = ca._xdResult(da.cb, da.id, ea, true);
+                            da.params.next = x.resolve('www') + '/login.php?' + t.encode({
+                                api_key: w.getClientID(),
+                                next: fa,
+                                skip_api_login: 1
+                            });
+                            return da;
+                        }
+                    },
                     apprequests: {
                         transform: function(da) {
                             da = aa.transform(da);
@@ -3897,7 +3915,7 @@ try {
                         var fa = da.method.toLowerCase(),
                             ga = i({}, ca.Methods[fa]),
                             ha = p(),
-                            ia = w.getSecure() || (fa !== 'auth.status' && fa != 'login.status');
+                            ia = (ga.noHttps !== true) && (w.getSecure() || (fa !== 'auth.status' && fa != 'login.status'));
                         i(da, {
                             api_key: w.getClientID(),
                             app_id: w.getClientID(),
@@ -3911,7 +3929,7 @@ try {
                             cb: ea,
                             id: ha,
                             size: ga.size || ca.getDefaultSize(),
-                            url: x.resolve(da.display == 'touch' ? 'm' : 'www', ia) + '/' + ga.url,
+                            url: x.resolve('www', ia) + '/' + ga.url,
                             forceHTTPS: ia,
                             params: da,
                             name: fa,
@@ -5258,34 +5276,26 @@ try {
                 var aa = document.createElement('span');
                 g.appendHidden(aa);
                 var ba = {};
-                ES5(z, 'forEach', true, function(ga) {
-                    ba[ga.config.name] = {
-                        plugin: ga.tag,
-                        params: ga.params
+                ES5(z, 'forEach', true, function(fa) {
+                    ba[fa.config.name] = {
+                        plugin: fa.tag,
+                        params: fa.params
                     };
                 });
                 var ca = ES5('JSON', 'stringify', false, ba),
-                    da = k.encode(ca);
-                ES5(z, 'forEach', true, function(ga) {
-                    var ha = document.getElementsByName(ga.config.name)[0];
-                    ha.onload = ga.config.onload;
+                    da = k.encode(ca),
+                    ea = n.encode({
+                        plugins: da.length < ca.length ? da : ca
+                    });
+                ES5(z, 'forEach', true, function(fa) {
+                    var ga = document.getElementsByName(fa.config.name)[0];
+                    ga.onload = fa.config.onload;
                 });
-                var ea = q.resolve('www', o.getSecure()) + '/plugins/pipe.php',
-                    fa = i();
                 j({
-                    url: 'about:blank',
+                    url: q.resolve('www', o.getSecure()) + '/plugins/pipe/?' + ea,
                     root: aa,
-                    name: fa,
-                    className: 'fb_hidden fb_invisible',
-                    onload: function() {
-                        g.submitToTarget({
-                            url: ea,
-                            target: fa,
-                            params: {
-                                plugins: da.length < ca.length ? da : ca
-                            }
-                        });
-                    }
+                    name: i(),
+                    className: 'fb_hidden fb_invisible'
                 });
             }
             h(t, {
