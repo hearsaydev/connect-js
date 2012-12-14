@@ -1,4 +1,4 @@
-/*1355435085,181969461,JIT Construction: v694077,en_US*/
+/*1355446394,179312955,JIT Construction: v694557,en_US*/
 
 /**
  * Copyright Facebook Inc.
@@ -5467,7 +5467,8 @@ try {
                     href: 'string',
                     action: 'string',
                     size: 'string',
-                    max_rows: 'string'
+                    max_rows: 'string',
+                    show_count: 'bool'
                 },
                 friendpile: {
                     href: 'string',
