@@ -1,4 +1,4 @@
-/*1355881701,180699425,JIT Construction: v698246,en_US*/
+/*1356054570,173085259,JIT Construction: v700199,en_US*/
 
 /**
  * Copyright Facebook Inc.
@@ -618,7 +618,7 @@ try {
             "cdn_https": "s-static.ak.facebook.com"
         });
         __d("XDConfig", [], {
-            "XdUrl": "connect\/xd_arbiter.php?version=17",
+            "XdUrl": "connect\/xd_arbiter.php?version=18",
             "Flash": {
                 "path": "https:\/\/connect.facebook.net\/rsrc.php\/v1\/ys\/r\/WON-TVLCpDP.swf"
             },
